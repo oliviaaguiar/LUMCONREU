@@ -88,3 +88,27 @@ summary(LUM3.aov.season)
 #p=0.922
 ```
 
+#plot by month
+```{r}
+level_order <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+
+snail %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+
+#LUM1
+LUM1 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+
+#LUM2
+LUM2 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+
+#LUM3
+LUM3 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+#looks like theres a pattern?
+LUM3.aov.month <- aov(LUM3$Li_density_m2 ~ LUM3$month_name)
+summary(LUM3.aov.month)
+#p=0.469
+```
+
