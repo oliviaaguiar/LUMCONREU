@@ -53,6 +53,8 @@ snail %>% ggplot() +
 lit.aov.site <- aov(snail$Li_density_m2 ~ snail$site)
 summary(lit.aov.site)
 #p<2e-16
+TukeyHSD(lit.aov.site)
+#they are all differnet from each other
 ```
 
 #since grouping them all together doesn't reveal any relationship, but there are differences in density between sites, I'm going to separate the sites to see if there is any seasonality when they aren't grouped together
@@ -110,5 +112,266 @@ LUM3 %>% ggplot() +
 LUM3.aov.month <- aov(LUM3$Li_density_m2 ~ LUM3$month_name)
 summary(LUM3.aov.month)
 #p=0.469
+```
+
+#separating into each year and sites
+
+###LUM1 by month
+```{r}
+#2017
+LUM1.17 <- LUM1 %>% filter(year == 2017)
+LUM1.17 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2017')
+LUM1.17.aov <- aov(LUM1.17$Li_density_m2 ~ LUM1.17$month_name)
+summary(LUM1.17.aov)
+
+#2018
+LUM1.18 <- LUM1 %>% filter(year == 2018)
+LUM1.18 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2018')
+LUM1.18.aov <- aov(LUM1.18$Li_density_m2 ~ LUM1.18$month_name)
+summary(LUM1.18.aov)
+
+#2019
+LUM1.19 <- LUM1 %>% filter(year == 2019)
+LUM1.19 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2019')
+LUM1.19.aov <- aov(LUM1.19$Li_density_m2 ~ LUM1.19$month_name)
+summary(LUM1.19.aov)
+
+#2020
+LUM1.20 <- LUM1 %>% filter(year == 2020)
+LUM1.20 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2020')
+LUM1.20.aov <- aov(LUM1.20$Li_density_m2 ~ LUM1.20$month_name)
+summary(LUM1.20.aov)
+
+#2021
+LUM1.21 <- LUM1 %>% filter(year == 2021)
+LUM1.21_level_order <- c('Jan', 'Feb', 'Mar', 'Apr')
+LUM1.21 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = LUM1.21_level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2021')
+LUM1.21.aov <- aov(LUM1.21$Li_density_m2 ~ LUM1.21$month_name)
+summary(LUM1.21.aov)
+
+###none of these are significant
+```
+
+###LUM1 by season
+```{r}
+#2017
+LUM1.17 <- LUM1 %>% filter(year == 2017)
+LUM1.17 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2017')
+LUM1.17.aov <- aov(LUM1.17$Li_density_m2 ~ LUM1.17$season)
+summary(LUM1.17.aov)
+###all are about the same here
+
+#2018
+LUM1.18 <- LUM1 %>% filter(year == 2018)
+LUM1.18 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2018')
+LUM1.18.aov <- aov(LUM1.18$Li_density_m2 ~ LUM1.18$season)
+summary(LUM1.18.aov)
+###says it isn't significant but fall looks a lot higher than the other seasons
+
+#2019
+LUM1.19 <- LUM1 %>% filter(year == 2019)
+LUM1.19 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2019')
+LUM1.19.aov <- aov(LUM1.19$Li_density_m2 ~ LUM1.19$season)
+summary(LUM1.19.aov)
+###fall looks a little higher, winter a little lower but boxes overlap- no significance
+
+#2020
+LUM1.20 <- LUM1 %>% filter(year == 2020)
+LUM1.20 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2020')
+LUM1.20.aov <- aov(LUM1.20$Li_density_m2 ~ LUM1.20$season)
+summary(LUM1.20.aov)
+###looks higher in fall and winter- no significance
+
+#2021
+LUM1.21 <- LUM1 %>% filter(year == 2021)
+LUM1.21 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2021')
+LUM1.21.aov <- aov(LUM1.21$Li_density_m2 ~ LUM1.21$season)
+summary(LUM1.21.aov)
+```
+
+###LUM2 by month
+```{r}
+#2017
+LUM2.17 <- LUM2 %>% filter(year == 2017)
+LUM2.17 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2017')
+LUM2.17.aov <- aov(LUM2.17$Li_density_m2 ~ LUM2.17$month_name)
+summary(LUM2.17.aov)
+#increases around July to November
+
+#2018
+LUM2.18 <- LUM2 %>% filter(year == 2018)
+LUM2.18 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2018')
+LUM2.18.aov <- aov(LUM2.18$Li_density_m2 ~ LUM2.18$month_name)
+summary(LUM2.18.aov)
+#peak in October-November
+
+#2019
+LUM2.19 <- LUM2 %>% filter(year == 2019)
+LUM2.19 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2019')
+LUM2.19.aov <- aov(LUM2.19$Li_density_m2 ~ LUM2.19$month_name)
+summary(LUM2.19.aov)
+#all over the place
+
+#2020
+LUM2.20 <- LUM2 %>% filter(year == 2020)
+LUM2.20 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2020')
+LUM2.20.aov <- aov(LUM2.20$Li_density_m2 ~ LUM2.20$month_name)
+summary(LUM2.20.aov)
+TukeyHSD(LUM2.20.aov)
+#October-May, September-May, May-Jan, sort of for february, feb-apr, 
+
+#2021
+LUM2.21 <- LUM2 %>% filter(year == 2021)
+LUM2.21_level_order <- c('Jan', 'Feb', 'Mar', 'Apr')
+LUM2.21 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = LUM2.21_level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2021')
+LUM2.21.aov <- aov(LUM2.21$Li_density_m2 ~ LUM2.21$month_name)
+summary(LUM2.21.aov)
+```
+ 
+
+###LUM2 by season
+```{r}
+#2017
+LUM2.17 <- LUM2 %>% filter(year == 2017)
+LUM2.17 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2017')
+LUM2.17.aov <- aov(LUM2.17$Li_density_m2 ~ LUM2.17$season)
+summary(LUM2.17.aov)
+#winter lower than other months- no sig
+
+#2018
+LUM2.18 <- LUM2 %>% filter(year == 2018)
+LUM2.18 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2018')
+LUM2.18.aov <- aov(LUM2.18$Li_density_m2 ~ LUM2.18$season)
+summary(LUM2.18.aov)
+#Fall higher than other months- sig
+
+#2019
+LUM2.19 <- LUM2 %>% filter(year == 2019)
+LUM2.19 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2019')
+LUM2.19.aov <- aov(LUM2.19$Li_density_m2 ~ LUM2.19$season)
+summary(LUM2.19.aov)
+#decreasing during summer and winter- no sig
+
+#2020
+LUM2.20 <- LUM2 %>% filter(year == 2020)
+LUM2.20 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2020')
+LUM2.20.aov <- aov(LUM2.20$Li_density_m2 ~ LUM2.20$season)
+summary(LUM2.20.aov)
+TukeyHSD(LUM2.20.aov)
+#Winter higher than fall, spring higher than fall (little over significance)
+
+#2021
+LUM2.21 <- LUM2 %>% filter(year == 2021)
+LUM2.21 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2 Density in 2021')
+LUM2.21.aov <- aov(LUM2.21$Li_density_m2 ~ LUM2.21$season)
+summary(LUM2.21.aov)
+#spring and winter very close
+```
+
+
+###LUM3 by month
+```{r}
+#2017
+LUM3.17 <- LUM3 %>% filter(year == 2017)
+LUM3.17 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2017')
+LUM3.17.aov <- aov(LUM3.17$Li_density_m2 ~ LUM3.17$month_name)
+summary(LUM3.17.aov)
+#all over the place- no sig
+
+#2018
+LUM3.18 <- LUM3 %>% filter(year == 2018)
+LUM3.18 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2018')
+LUM3.18.aov <- aov(LUM3.18$Li_density_m2 ~ LUM3.18$month_name)
+summary(LUM3.18.aov)
+#aside from january it looks like it peaks June-November- no sig
+
+#2019
+LUM3.19 <- LUM3 %>% filter(year == 2019)
+LUM3.19 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2019')
+LUM2.19.aov <- aov(LUM2.19$Li_density_m2 ~ LUM2.19$month_name)
+summary(LUM2.19.aov)
+#drop in density after May/June- low in July then builds back up- no sig
+
+#2020
+LUM3.20 <- LUM3 %>% filter(year == 2020)
+LUM3.20 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2020')
+LUM3.20.aov <- aov(LUM3.20$Li_density_m2 ~ LUM3.20$month_name)
+summary(LUM3.20.aov)
+#drops during october/november besides that very random- no sig
+
+#2021
+LUM3.21 <- LUM3 %>% filter(year == 2021)
+LUM3.21_level_order <- c('Jan', 'Feb', 'Mar', 'Apr')
+LUM3.21 %>% ggplot() +
+  geom_boxplot(aes(x=factor(month_name, levels = LUM3.21_level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2021')
+LUM3.21.aov <- aov(LUM3.21$Li_density_m2 ~ LUM3.21$month_name)
+summary(LUM3.21.aov)
+#january looks lower than the others- no sig
+```
+
+
+###LUM3 by season
+```{r}
+#2017
+LUM3.17 <- LUM3 %>% filter(year == 2017)
+LUM3.17 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2017')
+LUM3.17.aov <- aov(LUM3.17$Li_density_m2 ~ LUM3.17$season)
+summary(LUM3.17.aov)
+#fall looks a little lower than other months- no sig
+
+#2018
+LUM3.18 <- LUM3 %>% filter(year == 2018)
+LUM3.18 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2018')
+LUM3.18.aov <- aov(LUM3.18$Li_density_m2 ~ LUM3.18$season)
+summary(LUM3.18.aov)
+#fall looks a little higher- no sig
+
+#2019
+LUM3.19 <- LUM3 %>% filter(year == 2019)
+LUM3.19 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2019')
+LUM3.19.aov <- aov(LUM3.19$Li_density_m2 ~ LUM3.19$season)
+summary(LUM3.19.aov)
+#all look pretty similar- summer lower than the rest- no sig
+
+#2020
+LUM3.20 <- LUM3 %>% filter(year == 2020)
+LUM3.20 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2020')
+LUM3.20.aov <- aov(LUM3.20$Li_density_m2 ~ LUM3.20$season)
+summary(LUM3.20.aov)
+
+#2021
+LUM3.21 <- LUM3 %>% filter(year == 2021)
+LUM3.21 %>% ggplot() +
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2021')
+LUM3.21.aov <- aov(LUM3.21$Li_density_m2 ~ LUM3.21$season)
+summary(LUM3.21.aov)
 ```
 
