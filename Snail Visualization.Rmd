@@ -68,21 +68,21 @@ LUM3 <- snail %>% filter(site == 'LUM3')
 ```{r}
 ##LUM1
 LUM1 %>% ggplot() +
-  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density')
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle("LUM1")
 LUM1.aov.season <- aov(LUM1$Li_density_m2 ~ LUM1$season)
 summary(LUM1.aov.season)
 #p=0.406
 
 ##LUM2
 LUM2 %>% ggplot() +
-  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density')
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM2')
 LUM2.aov.season <- aov(LUM2$Li_density_m2 ~ LUM2$season)
 summary(LUM2.aov.season)
 #p=0.122
 
 ##LUM3
 LUM3 %>% ggplot() +
-  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density')
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3')
 LUM3.aov.season <- aov(LUM3$Li_density_m2 ~ LUM3$season)
 summary(LUM3.aov.season)
 #p=0.922
@@ -97,15 +97,15 @@ snail %>% ggplot() +
 
 #LUM1
 LUM1 %>% ggplot() +
-  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1')
 
 #LUM2
 LUM2 %>% ggplot() +
-  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM2')
 
 #LUM3
 LUM3 %>% ggplot() +
-  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density')
+  geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM3')
 #looks like theres a pattern?
 LUM3.aov.month <- aov(LUM3$Li_density_m2 ~ LUM3$month_name)
 summary(LUM3.aov.month)
