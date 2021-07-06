@@ -124,6 +124,7 @@ LUM1.17 %>% ggplot() +
   geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2017')
 LUM1.17.aov <- aov(LUM1.17$Li_density_m2 ~ LUM1.17$month_name)
 summary(LUM1.17.aov)
+#June 2017 TS Cindy, no difference- August 2017 Hurricane Harvey, looks like a small dip- October 2017 Hurricane Nate, small dip
 
 #2018
 LUM1.18 <- LUM1 %>% filter(year == 2018)
@@ -138,6 +139,7 @@ LUM1.19 %>% ggplot() +
   geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2019')
 LUM1.19.aov <- aov(LUM1.19$Li_density_m2 ~ LUM1.19$month_name)
 summary(LUM1.19.aov)
+#July 2019 Hurricane Barry, small dip- October 2019 TS Olga, big dip
 
 #2020
 LUM1.20 <- LUM1 %>% filter(year == 2020)
@@ -145,6 +147,7 @@ LUM1.20 %>% ggplot() +
   geom_boxplot(aes(x=factor(month_name, levels = level_order), y=Li_density_m2)) + xlab('Month') + ylab('Littoraria density') + ggtitle('LUM1 Density in 2020')
 LUM1.20.aov <- aov(LUM1.20$Li_density_m2 ~ LUM1.20$month_name)
 summary(LUM1.20.aov)
+#June 2020 TS Cristobal, very low that month- August 2020 Hurricane Marco, increase afterwards- October 2020 Hurricane Delta and Zeta, increase afterwards
 
 #2021
 LUM1.21 <- LUM1 %>% filter(year == 2021)
@@ -191,6 +194,7 @@ LUM1.20.aov <- aov(LUM1.20$Li_density_m2 ~ LUM1.20$season)
 summary(LUM1.20.aov)
 ###looks higher in fall and winter- no significance
 
+
 #2021
 LUM1.21 <- LUM1 %>% filter(year == 2021)
 LUM1.21 %>% ggplot() +
@@ -208,6 +212,7 @@ LUM2.17 %>% ggplot() +
 LUM2.17.aov <- aov(LUM2.17$Li_density_m2 ~ LUM2.17$month_name)
 summary(LUM2.17.aov)
 #increases around July to November
+#June 2017 TS Cindy, increase afterwards- August 2017 Hurricane Harvey, tiny decrease- October 2017 Hurricane Nate, tiny decrease
 
 #2018
 LUM2.18 <- LUM2 %>% filter(year == 2018)
@@ -224,6 +229,8 @@ LUM2.19 %>% ggplot() +
 LUM2.19.aov <- aov(LUM2.19$Li_density_m2 ~ LUM2.19$month_name)
 summary(LUM2.19.aov)
 #all over the place
+#July 2019 Hurricane Barry, big decrease- October 2019 TS Olga, very low that whole month
+
 
 #2020
 LUM2.20 <- LUM2 %>% filter(year == 2020)
@@ -233,6 +240,8 @@ LUM2.20.aov <- aov(LUM2.20$Li_density_m2 ~ LUM2.20$month_name)
 summary(LUM2.20.aov)
 TukeyHSD(LUM2.20.aov)
 #October-May, September-May, May-Jan, sort of for february, feb-apr, 
+#June 2020 TS Cristobal, very low that month- August 2020 Hurricane Marco, decrease afterwards- October 2020 Hurricane Delta and Zeta, small increase afterwards
+
 
 #2021
 LUM2.21 <- LUM2 %>% filter(year == 2021)
@@ -298,6 +307,8 @@ LUM3.17 %>% ggplot() +
 LUM3.17.aov <- aov(LUM3.17$Li_density_m2 ~ LUM3.17$month_name)
 summary(LUM3.17.aov)
 #all over the place- no sig
+#June 2017 TS Cindy, low that month- August 2017 Hurricane Harvey, large decrease- October 2017 Hurricane Nate, large decrease
+
 
 #2018
 LUM3.18 <- LUM3 %>% filter(year == 2018)
@@ -314,6 +325,8 @@ LUM3.19 %>% ggplot() +
 LUM2.19.aov <- aov(LUM2.19$Li_density_m2 ~ LUM2.19$month_name)
 summary(LUM2.19.aov)
 #drop in density after May/June- low in July then builds back up- no sig
+#July 2019 Hurricane Barry, low that month- October 2019 TS Olga, increase afterwards
+
 
 #2020
 LUM3.20 <- LUM3 %>% filter(year == 2020)
@@ -322,6 +335,8 @@ LUM3.20 %>% ggplot() +
 LUM3.20.aov <- aov(LUM3.20$Li_density_m2 ~ LUM3.20$month_name)
 summary(LUM3.20.aov)
 #drops during october/november besides that very random- no sig
+#June 2020 TS Cristobal, very low that month- August 2020 Hurricane Marco, tiny afterwards- October 2020 Hurricane Delta and Zeta, low that month and november
+
 
 #2021
 LUM3.21 <- LUM3 %>% filter(year == 2021)
