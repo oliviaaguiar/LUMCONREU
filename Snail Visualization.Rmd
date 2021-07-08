@@ -23,7 +23,9 @@ library(readxl)
 
 #load data
 ```{r}
-snail <- read_xlsx('LUMSnails_Density_Master.xlsx')
+snail <- read_xlsx('Snail_Density_Seasons.xlsx')
+#snail$date <- strptime(snail$date, format = "%Y/%m")
+#snail$date <- as.Date(snail$date, format = "%Y/%m")
 ```
 
 #boxplot by season
@@ -61,9 +63,9 @@ TukeyHSD(lit.aov.site)
 
 #making data frame for each sites
 ```{r}
-LUM1 <- snail %>% filter(site == 'LUM1')
-LUM2 <- snail %>% filter(site == 'LUM2')
-LUM3 <- snail %>% filter(site == 'LUM3')
+LUM1 <- read_xlsx('LUM1.xlsx')
+LUM2 <- read_xlsx('LUM2.xlsx')
+LUM3 <- read_xlsx('LUM3.xlsx')
 ```
 
 #looking at seasons again (periwinkles)
@@ -388,5 +390,40 @@ LUM3.21 %>% ggplot() +
   geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle('LUM3 Density in 2021')
 LUM3.21.aov <- aov(LUM3.21$Li_density_m2 ~ LUM3.21$season)
 summary(LUM3.21.aov)
+```
+
+#trying to make scatterplot
+```{r}
+LUM1 %>% ggplot(aes(x=study_month, y=Li_density_m2)) + 
+  stat_summary(geom = 'point', fun.y = mean) + ggtitle('LUM1 Densities') %>% geom_errorbar(aes(ymin=Li_density_m2-LUM1_error, ymax=Li_density_m2+LUM1_error))
+
+LUM1 %>% ggplot(aes(x=study_month, y=Li_density_m2)) + 
+  geom_point() + ggtitle('LUM1 Densities') +
+  geom_errorbar(aes(ymin=Li_density_m2-LUM1_error, ymax=Li_density_m2+LUM1_error))
+#this works but it doesn't average them together
+
+LUM1_error <- std.error(LUM1$Li_density_m2)
+
+LUM2 %>% ggplot(aes(x=study_month, y=Li_density_m2)) + 
+  stat_summary(geom = 'point', fun.y = mean) + ggtitle('LUM2 Densities')
+
+LUM2_error <- std.error(LUM2$Li_density_m2)
+
+LUM3 %>% ggplot(aes(x=study_month, y=Li_density_m2)) + 
+  stat_summary(geom = 'point', fun.y = mean) + ggtitle('LUM3 Densities')
+
+LUM3_error <- std.error(LUM3$Li_density_m2)
+```
+
+#making a function for doing this automatically, doesn't average
+```{r}
+plot.with.errorbars <- function(x, y, err, ylim=NULL, ...) {
+  if (is.null(ylim))
+    ylim <- c(min(y-err), max(y+err))
+  plot(x, meany, ylim=ylim, pch=19, ...)
+  arrows(x, y-err, x, y+err, length=0.05, angle=90, code=3)
+}
+
+plot.with.errorbars(LUM1$study_month, LUM1$Li_density_m2, 2.688, ylim = NULL,main = 'Lum1 Densities', xlab = 'study_month', ylab = 'Littoraria density')
 ```
 
