@@ -427,3 +427,12 @@ plot.with.errorbars <- function(x, y, err, ylim=NULL, ...) {
 plot.with.errorbars(LUM1$study_month, LUM1$Li_density_m2, 2.688, ylim = NULL,main = 'Lum1 Densities', xlab = 'study_month', ylab = 'Littoraria density')
 ```
 
+#trying it again but with new spreadsheets that include average and error bars- it works!!!
+```{r}
+LUM1 %>% ggplot(aes(x=study_month2, y=average)) + geom_point(aes(x=study_month2, y=average)) + ggtitle('LUM1 Densities') + geom_errorbar(aes(ymin=average-SE, ymax=average+SE)) + xlab('Study Month') + ylab('Littoraria Density (m2)')
+                                                                                        
+LUM2 %>% ggplot(aes(x=study_month2, y=average)) + geom_point(aes(x=study_month2, y=average)) + ggtitle('LUM2 Densities') + geom_errorbar(aes(ymin=average-SE, ymax=average+SE)) + xlab('Study Month') + ylab('Littoraria Density (m2)')
+
+LUM3 %>% ggplot(aes(x=study_month2, y=average)) + geom_point(aes(x=study_month2, y=average)) + ggtitle('LUM3 Densities') + geom_errorbar(aes(ymin=average-SE, ymax=average+SE)) + xlab('Study Month') + ylab('Littoraria Density (m2)')
+```
+
