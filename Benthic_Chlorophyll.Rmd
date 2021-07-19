@@ -17,8 +17,124 @@ library(Biostatistics)
 library(readxl)
 ```
 
-
+#making master data frame
 ```{r}
-chloro <- read_xlsx('LUMCON Plants_Benthic_Chlorophyll_Mastersheet.xlsx')
+chloro <- read_xlsx('Benthic_Chlorophyll.xlsx')
+```
+
+#separating out the sites
+#I did some work that I've written over here- making individual excel sheets and removing NAs- to get this to line up well with the snail data I'm taking 2016 out of the SITE SHEETS ONLY- full data is still on the mastersheet and Benthic_Chlorophyll.xlsx
+```{r}
+chloro1 <- read_xlsx('LUM1_Benthic_Chlorophyll.xlsx')
+chloro2 <- read_xlsx('LUM2_Benthic_Chlorophyll.xlsx')
+chloro3 <- read_xlsx('LUM3_Benthic_Chlorophyll.xlsx')
+
+LUM1 <- read_xlsx('Graph_LUM1.xlsx') %>% na.omit()
+LUM2 <- read_xlsx('Graph_LUM2.xlsx') %>% na.omit()
+LUM3 <- read_xlsx('Graph_LUM3.xlsx') %>% na.omit()
+```
+
+#looking to see if theres any overarching differences between seasons
+```{r}
+season_order <- c('Winter', 'Spring', 'Summer', 'Fall')
+
+chloro1 %>% ggplot() +
+  geom_boxplot(aes(x=factor(Season, levels = season_order), y=Average_Chla)) + xlab('Season') + ylab('Average Chlorophyll A (mg/cm)') + ggtitle("LUM1")
+chloro1.aov.season <- aov(chloro1$Average_Chla ~ chloro1$Season)
+summary(chloro1.aov.season)
+
+chloro2 %>% ggplot() +
+  geom_boxplot(aes(x=factor(Season, levels = season_order), y=Average_Chla)) + xlab('Season') + ylab('Average Chlorophyll A (mg/cm)') + ggtitle("LUM2")
+chloro2.aov.season <- aov(chloro2$Average_Chla ~ chloro2$Season)
+summary(chloro2.aov.season)
+
+chloro3 %>% ggplot() +
+  geom_boxplot(aes(x=factor(Season, levels = season_order), y=Average_Chla)) + xlab('Season') + ylab('Average Chlorophyll A (mg/cm)') + ggtitle("LUM3")
+chloro3.aov.season <- aov(chloro3$Average_Chla ~ chloro3$Season)
+summary(chloro3.aov.season)
+```
+
+#scatterplot for benthic chlorophyl during study months
+```{r}
+chloro1 %>% ggplot(aes(x=Study_month, y=Average_Chla)) + geom_point(aes(x=Study_month, y=Average_Chla)) + ggtitle('LUM1') + xlab('Study Month') + ylab('Average Chlorophyll A (mg/cm')
+
+chloro2 %>% ggplot(aes(x=Study_month, y=Average_Chla)) + geom_point(aes(x=Study_month, y=Average_Chla)) + ggtitle('LUM2') + xlab('Study Month') + ylab('Average Chlorophyll A (mg/cm')
+
+chloro3 %>% ggplot(aes(x=Study_month, y=Average_Chla)) + geom_point(aes(x=Study_month, y=Average_Chla)) + ggtitle('LUM3') + xlab('Study Month') + ylab('Average Chlorophyll A (mg/cm')
+#all of the sites seem to have a general trend of increasing chlorphyll as the study progresses
+```
+
+#trying to plot density along benthic chlorophyll- starting with LUM1
+#http://www.countbio.com/web_pages/left_object/R_for_biology/R_fundamentals/multiple_curves_R.html
+```{r}
+# define 2 data sets
+Study_month <- chloro1$Study_month %>% na.omit()
+Chlorophyll <- chloro1$Average_Chla %>% na.omit()
+Lit_density <- LUM1$average %>% na.omit()
+
+# plot the first curve by calling plot() function
+# First curve is plotted
+plot(Study_month, Chlorophyll, type="o", col="blue", pch="o", lty=1, ylim=c(0,150), ylab="y" )
+
+# Add second curve to the same plot by calling points() and lines()
+# Use symbol '*' for points.
+points(Study_month, Lit_density, col="red", pch="*")
+lines(Study_month, Lit_density, col="red",lty=2)
+
+# Adding a legend inside box at the location (2,40) in graph coordinates.
+# Note that the order of plots are maintained in the vectors of attributes.
+legend(1,150,legend=c("Chlorophyll","Lit_density"), col=c("blue","red"), title = 'LUM1',
+                                   pch=c("o","*"),lty=c(1,2), ncol=1)
+```
+
+#LUM2
+```{r}
+# define 2 data sets
+Chlorophyll2 <- chloro2$Average_Chla %>% na.omit()
+Lit_density2 <- LUM2$average %>% na.omit()
+
+# plot the first curve by calling plot() function
+# First curve is plotted
+plot(Study_month, Chlorophyll2, type="o", col="blue", pch="o", lty=1, ylim=c(0,300), ylab="y" )
+
+# Add second curve to the same plot by calling points() and lines()
+# Use symbol '*' for points.
+points(Study_month, Lit_density2, col="red", pch="*")
+lines(Study_month, Lit_density2, col="red",lty=2)
+
+# Adding a legend inside box at the location (2,40) in graph coordinates.
+# Note that the order of plots are maintained in the vectors of attributes.
+legend(1,300,legend=c("Chlorophyll","Lit_density"), col=c("blue","red"), title = 'LUM2',
+                                   pch=c("o","*"),lty=c(1,2), ncol=1)
+```
+
+#LUM3
+```{r}
+# define 2 data sets
+Chlorophyll3 <- chloro3$Average_Chla %>% na.omit()
+Lit_density3 <- LUM3$average %>% na.omit()
+
+# plot the first curve by calling plot() function
+# First curve is plotted
+plot(Study_month, Chlorophyll3, type="o", col="blue", pch="o", lty=1, ylim=c(0,350), ylab="y" )
+
+# Add second curve to the same plot by calling points() and lines()
+# Use symbol '*' for points.
+points(Study_month, Lit_density3, col="red", pch="*")
+lines(Study_month, Lit_density3, col="red",lty=2)
+
+# Adding a legend inside box at the location (2,40) in graph coordinates.
+# Note that the order of plots are maintained in the vectors of attributes.
+legend(1,350,legend=c("Chlorophyll","Lit_density"), col=c("blue","red"), title = 'LUM3',
+                                   pch=c("o","*"),lty=c(1,2), ncol=1)
+```
+
+#I feel like a lot of the variation here is getting lost because they are very different in terms of magnitude
+```{r}
+cor.test(Lit_density, Chlorophyll)
+
+cor.test(Lit_density2, Chlorophyll2)
+
+cor.test(Lit_density3, Chlorophyll3)
 ```
 
