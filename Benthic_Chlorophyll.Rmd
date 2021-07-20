@@ -19,7 +19,7 @@ library(readxl)
 
 #making master data frame
 ```{r}
-chloro <- read_xlsx('Benthic_Chlorophyll.xlsx')
+chloro <- read_xlsx('Benthic_Chlorophyll.xlsx') %>% filter(Chl_a != 'NA')
 ```
 
 #separating out the sites
@@ -136,5 +136,35 @@ cor.test(Lit_density, Chlorophyll)
 cor.test(Lit_density2, Chlorophyll2)
 
 cor.test(Lit_density3, Chlorophyll3)
+```
+
+#going to try to make a new data frame with benthic chlorophyll, lit density, and study month
+```{r}
+combined1 <- data.frame(average_Chla = chloro1$Average_Chla,
+                        average_lit = LUM1$average,
+                        study_month = chloro1$Study_month)
+plot(combined1$average_lit ~ combined1$average_Chla)
+#doesn't seem to be anything going on here
+
+combined2 <- data.frame(average_Chla = chloro2$Average_Chla,
+                        average_lit = LUM2$average,
+                        study_month = chloro2$Study_month)
+plot(combined2$average_lit ~ combined2$average_Chla)
+#again nothing pops out, this is more of a horizontal line though
+
+combined3 <- data.frame(average_Chla = chloro3$Average_Chla,
+                        average_lit = LUM3$average,
+                        study_month = chloro3$Study_month)
+plot(combined3$average_lit ~ combined3$average_Chla)
+#no relationship can be seen here
+```
+
+#does benthic chlorophyll vary by site
+```{r}
+chloro.site.aov <- aov(chloro$Chl_a ~ chloro$Site)
+summary(chloro.site.aov)
+
+chloro %>% ggplot() +
+  geom_boxplot(aes(x=Site, y=Chl_a)) + xlab('Site') + ylab('Littoraria Density')
 ```
 
