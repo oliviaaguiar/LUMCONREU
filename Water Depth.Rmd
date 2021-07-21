@@ -18,9 +18,12 @@ library(Biostatistics)
 
 ```{r}
 depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
-depth$Month <- format(as.Date(depth$`Date/Time`), "%m/%Y")
+depth$Date <- format(as.Date(depth$`Date/Time`), "%m/%Y")
 
 #getting it to group by month and then average it out!
-average <- aggregate(Depth ~ Month, depth, FUN = mean)
+average <- aggregate(Depth ~ Date, depth, FUN = mean)
+
+#going to just make it an excel sheet since I have it in an easier format now
+#write_xlsx(average, 'Water_Depth.xlsx')
 ```
 
