@@ -1,0 +1,37 @@
+---
+title: "Stem Density"
+author: "Olivia Aguiar"
+date: "7/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(Biostatistics)
+```
+
+#bring in data
+```{r}
+plants <- read_xlsx('LUMCON Plants_StemDensity_Mastersheet_Olivia.xlsx')
+#plants$new_date <- as.Date(plants$date, "%mm/%YYYY", tryFormats = c("%m/%Y"), optional = TRUE)
+#this isn't working!
+
+#moving on, I'm going to separate the density column into two separate columns to make things easier
+
+
+#cast and melt for separating things out?
+plants1 <- plants %>% filter(site == 'LUM1')
+plants2 <- plants %>% filter(site == 'LUM2')
+plants3 <- plants %>% filter(site == 'LUM3')
+```
+
+#look between years
+```{r}
+
+```
+

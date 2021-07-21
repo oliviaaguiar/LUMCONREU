@@ -213,4 +213,3 @@ legend("topleft",
        col = 2:3,
        pch = 16:17)
 ```
-
