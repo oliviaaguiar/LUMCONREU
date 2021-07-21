@@ -1,0 +1,73 @@
+---
+title: "Benthic_Chlorophyll2"
+author: "Olivia Aguiar"
+date: "7/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(Biostatistics)
+library(readxl)
+chloro <- read_xlsx('Benthic_Chlorophyll.xlsx') %>% filter(Chl_a != 'NA') %>% filter(Year != 2016) %>% na.omit()
+chloro$Chl_a <- as.numeric(chloro$Chl_a)
+chloro1 <- chloro %>% filter(Site == 'LUM1')
+chloro2 <- chloro %>% filter(Site == 'LUM2')
+chloro3 <- chloro %>% filter(Site == 'LUM3')
+
+date_order <- c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021')
+```
+
+#reference
+```{r}
+# Change the appearance and the orientation angle
+# of axis tick labels
+#p + theme(axis.text.x = element_text(face="bold", color="#993333", 
+#                           size=14, angle=45),
+#          axis.text.y = element_text(face="bold", color="#993333", 
+#                           size=14, angle=45))
+
+#chloroyear1 <- aggregate(Chl_a ~ Month.no/Year, chloro1, FUN = mean)
+#this actually separates it by BOTH the month number column and the year, not the new column that I had originally called "Month.no/Year" (Will be changing in Benthic_Chlorophyll.xlsx after this comment) I just want to keep this code so I know how to do it in the future
+```
+
+#LUM1
+```{r}
+#chloroyear1 <- aggregate(Chl_a ~ Date, chloro1, FUN = mean)
+
+chloroyear1 <- chloro1 %>% 
+  group_by(Date) %>% 
+  summarise(mean = mean(Chl_a),
+            std = sd(Chl_a))
+
+##can't do standard error because n=2 so I'm doing standard deviation instead
+
+chloroyear1 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM1 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+```
+
+#LUM2
+```{r}
+chloroyear2 <- chloro2 %>% 
+  group_by(Date) %>% 
+  summarise(mean = mean(Chl_a),
+            std = sd(Chl_a))
+
+#can't do standard error because n=2 so I'm doing standard deviation instead
+chloroyear2 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM2 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+```
+
+#LUM3
+```{r}
+chloroyear3 <- chloro3 %>% 
+  group_by(Date) %>% 
+  summarise(mean = mean(Chl_a),
+            std = sd(Chl_a))
+
+#can't do standard error because n=2 so I'm doing standard deviation instead
+chloroyear3 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM3 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+```
+
