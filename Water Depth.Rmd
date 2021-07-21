@@ -1,0 +1,26 @@
+---
+title: "Water Depth"
+author: "Olivia Aguiar"
+date: "7/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(Biostatistics)
+```
+
+
+```{r}
+depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
+depth$Month <- format(as.Date(depth$`Date/Time`), "%m/%Y")
+
+#getting it to group by month and then average it out!
+average <- aggregate(Depth ~ Month, depth, FUN = mean)
+```
+
