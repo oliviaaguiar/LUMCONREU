@@ -164,7 +164,7 @@ plot(combined3$average_lit ~ combined3$average_Chla)
 chloro.site.aov <- aov(chloro$Chl_a ~ chloro$Site)
 summary(chloro.site.aov)
 
-chloro %>% ggplot() +
-  geom_boxplot(aes(x=Site, y=Chl_a)) + xlab('Site') + ylab('Littoraria Density')
+chloro %>% ggplot(aes(x=Site, y=Chl_a)) +
+  geom_boxplot() + xlab('Site') + ylab('Littoraria Density')
 ```
 
