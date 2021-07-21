@@ -20,6 +20,7 @@ library(readxl)
 #making master data frame
 ```{r}
 chloro <- read_xlsx('Benthic_Chlorophyll.xlsx') %>% filter(Chl_a != 'NA')
+chloro$Chl_a <- as.numeric(chloro$Chl_a)
 ```
 
 #separating out the sites
@@ -164,7 +165,52 @@ plot(combined3$average_lit ~ combined3$average_Chla)
 chloro.site.aov <- aov(chloro$Chl_a ~ chloro$Site)
 summary(chloro.site.aov)
 
-chloro %>% ggplot(aes(x=Site, y=Chl_a)) +
-  geom_boxplot() + xlab('Site') + ylab('Littoraria Density')
+boxplot(Chl_a~Site, data=chloro, xlab = 'Site', ylab = 'Chlorophyll A')
+```
+
+#trying to plot benthic chlorophyll and lit density with two y axes
+#LUM1
+```{r}
+par(mar = c(5, 4, 4, 4) + 0.3)
+plot(combined1$study_month, combined1$average_lit, pch = 16, col = 2, xlab = 'Study Month', ylab = 'Littoraria Density', main = 'LUM1')
+par(new = TRUE)                           
+plot(combined1$study_month, combined1$average_Chla, pch = 17, col = 3,
+     axes = FALSE, xlab = "", ylab = "")
+axis(side = 4, at = pretty(range(combined1$average_Chla)))     
+mtext("Chlorophyll A", side = 4, line = 3)      
+legend("topleft",
+       legend = c("Littoraria", "Chlorophyll"),
+       col = 2:3,
+       pch = 16:17)
+```
+
+#LUM2
+```{r}
+par(mar = c(5, 4, 4, 4) + 0.3)
+plot(combined2$study_month, combined2$average_lit, pch = 16, col = 2, xlab = 'Study Month', ylab = 'Littoraria Density', main = 'LUM2')
+par(new = TRUE)                           
+plot(combined2$study_month, combined2$average_Chla, pch = 17, col = 3,
+     axes = FALSE, xlab = "", ylab = "")
+axis(side = 4, at = pretty(range(combined2$average_Chla)))     
+mtext("Chlorophyll A", side = 4, line = 3)      
+legend("topleft",
+       legend = c("Littoraria", "Chlorophyll"),
+       col = 2:3,
+       pch = 16:17)
+```
+
+#LUM3
+```{r}
+par(mar = c(5, 4, 4, 4) + 0.3)
+plot(combined3$study_month, combined3$average_lit, pch = 16, col = 2, xlab = 'Study Month', ylab = 'Littoraria Density', main = 'LUM3')
+par(new = TRUE)                           
+plot(combined3$study_month, combined3$average_Chla, pch = 17, col = 3,
+     axes = FALSE, xlab = "", ylab = "")
+axis(side = 4, at = pretty(range(combined3$average_Chla)))     
+mtext("Chlorophyll A", side = 4, line = 3)      
+legend("topleft",
+       legend = c("Littoraria", "Chlorophyll"),
+       col = 2:3,
+       pch = 16:17)
 ```
 
