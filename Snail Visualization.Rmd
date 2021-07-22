@@ -436,3 +436,44 @@ LUM2 %>% ggplot(aes(x=study_month2, y=average)) + geom_point(aes(x=study_month2,
 LUM3 %>% ggplot(aes(x=study_month2, y=average)) + geom_point(aes(x=study_month2, y=average)) + ggtitle('LUM3 Densities') + geom_errorbar(aes(ymin=average-SE, ymax=average+SE)) + xlab('Study Month') + ylab('Littoraria Density (m2)')
 ```
 
+#LUM1 yearly
+```{r}
+LUM1$year <- as.character(LUM1$year)
+
+LUM1 %>% ggplot() +
+  geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
+
+LUM1.year.aov <- aov(Li_density_m2 ~ year, LUM1)
+summary(LUM1.year.aov)
+#not different
+```
+
+#LUM2 yearly
+```{r}
+LUM2$year <- as.character(LUM2$year)
+
+LUM2 %>% ggplot() +
+  geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+
+LUM2.year.aov <- aov(Li_density_m2 ~ year, LUM2)
+summary(LUM2.year.aov)
+#very different...
+TukeyHSD(LUM2.year.aov)
+#2020-2017, 2021-2017, 2020-2018, 2021-2018
+```
+
+
+#LUM3 yearly
+```{r}
+LUM3$year <- as.character(LUM3$year)
+
+LUM3 %>% ggplot() +
+  geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
+
+LUM3.year.aov <- aov(Li_density_m2 ~ year, LUM3)
+summary(LUM3.year.aov)
+#very different
+TukeyHSD(LUM3.year.aov)
+#2020-2017, 2021-2017, 2020-2018, ~2021-2018
+```
+
