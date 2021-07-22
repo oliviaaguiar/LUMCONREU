@@ -35,39 +35,89 @@ date_order <- c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2
 #this actually separates it by BOTH the month number column and the year, not the new column that I had originally called "Month.no/Year" (Will be changing in Benthic_Chlorophyll.xlsx after this comment) I just want to keep this code so I know how to do it in the future
 ```
 
-#LUM1
+#LUM1 monthly
 ```{r}
 #chloroyear1 <- aggregate(Chl_a ~ Date, chloro1, FUN = mean)
 
-chloroyear1 <- chloro1 %>% 
+chlorodate1 <- chloro1 %>% 
   group_by(Date) %>% 
   summarise(mean = mean(Chl_a),
             std = sd(Chl_a))
 
 ##can't do standard error because n=2 so I'm doing standard deviation instead
 
-chloroyear1 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM1 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+chlorodate1 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM1 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
 ```
 
-#LUM2
+#LUM2 monthly
 ```{r}
-chloroyear2 <- chloro2 %>% 
+chlorodate2 <- chloro2 %>% 
   group_by(Date) %>% 
   summarise(mean = mean(Chl_a),
             std = sd(Chl_a))
 
 #can't do standard error because n=2 so I'm doing standard deviation instead
-chloroyear2 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM2 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+chlorodate2 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM2 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
 ```
 
-#LUM3
+#LUM3 monthly
 ```{r}
-chloroyear3 <- chloro3 %>% 
+chlorodate3 <- chloro3 %>% 
   group_by(Date) %>% 
   summarise(mean = mean(Chl_a),
             std = sd(Chl_a))
 
 #can't do standard error because n=2 so I'm doing standard deviation instead
-chloroyear3 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM3 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+chlorodate3 %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + ggtitle('LUM3 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Date') + ylab('Chlorophyll A') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('1/2017', '2/2017', '3/2017', '4/2017', '5/2017', '6/2017', '7/2017', '8/2017', '9/2017', '10/2017', '11/2017', '12/2017', '1/2018', '2/2018', '3/2018', '4/2018', '5/2018', '6/2018', '7/2018', '8/2018', '9/2018', '10/2018', '11/2018', '12/2018', '1/2019', '2/2019', '3/2019', '4/2019', '5/2019', '6/2019', '7/2019', '8/2019', '9/2019', '10/2019', '11/2019', '12/2019', '1/2020', '2/2020', '3/2020', '4/2020', '5/2020', '6/2020', '7/2020', '8/2020', '9/2020', '10/2020', '11/2020', '12/2020', '1/2021', '2/2021', '3/2021', '4/2021'))
+```
+
+#LUM1 yearly
+```{r}
+chloroyear1 <- chloro1 %>% 
+  group_by(Year) %>% 
+  summarise(mean = mean(Chl_a),
+            std = sd(Chl_a))
+
+chloroyear1 %>% ggplot(aes(x=Year, y=mean)) + geom_point(aes(x=Year, y=mean)) + ggtitle('LUM1 Benthic Chlorophyll') + geom_errorbar(aes(ymin=mean-std, ymax=mean+std)) + xlab('Year') + ylab('Chlorophyll A')
+#maybe I should just do boxplot instead
+
+chloro1$Year <- as.character(chloro1$Year)
+
+chloro1 %>% ggplot() + 
+  geom_boxplot(aes(x = Year, y = Chl_a)) + xlab('Year') + ylab('Chlorophyll A') + ggtitle('LUM1 Benthic Chlorophyll')
+
+chloroyear1.aov <- aov(Chl_a ~ Year, chloro1)
+summary(chloroyear1.aov)
+#they are different!
+#2020-2017, ~2020-2018
+TukeyHSD(chloroyear1.aov)
+```
+
+#LUM2 yearly
+```{r}
+chloro2$Year <- as.character(chloro2$Year)
+
+chloro2 %>% ggplot() + 
+  geom_boxplot(aes(x = Year, y = Chl_a)) + xlab('Year') + ylab('Chlorophyll A') + ggtitle('LUM2 Benthic Chlorophyll')
+
+chloroyear2.aov <- aov(Chl_a ~ Year, chloro2)
+summary(chloroyear2.aov)
+#very different
+TukeyHSD(chloroyear2.aov)
+#2019-2017, 2020-2017, 2020-2018, ~2021-2018
+```
+
+#LUM3 yearly
+```{r}
+chloro3$Year <- as.character(chloro3$Year)
+
+chloro3 %>% ggplot() + 
+  geom_boxplot(aes(x = Year, y = Chl_a)) + xlab('Year') + ylab('Chlorophyll A') + ggtitle('LUM3 Benthic Chlorophyll')
+
+chloroyear3.aov <- aov(Chl_a ~ Year, chloro3)
+summary(chloroyear3.aov)
+#very different
+TukeyHSD(chloroyear3.aov)
+#2020-2017, ~2019-2017, ~2021-2017
 ```
 
