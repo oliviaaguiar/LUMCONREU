@@ -177,7 +177,7 @@ par(new = TRUE)
 plot(combined1$study_month, combined1$average_Chla, pch = 17, col = 4,
      axes = FALSE, xlab = "", ylab = "")
 axis(side = 4, at = pretty(range(combined1$average_Chla)))     
-mtext("Chlorophyll A", side = 4, line = 3)      
+mtext("Chlorophyll A", side = 4, line = 2)      
 legend("topleft",
        legend = c("Littoraria", "Chlorophyll"),
        col = 6:4,
