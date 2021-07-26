@@ -56,7 +56,7 @@ lit.aov.site <- aov(snail$Li_density_m2 ~ snail$site)
 summary(lit.aov.site)
 #p<2e-16
 TukeyHSD(lit.aov.site)
-#they are all differnet from each other
+#they are all different from each other
 ```
 
 #since grouping them all together doesn't reveal any relationship, but there are differences in density between sites, I'm going to separate the sites to see if there is any seasonality when they aren't grouped together
