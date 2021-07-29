@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(tidyverse)
 library(Biostatistics)
+library(plotrix)
+library(lubridate)
 ```
 
 #fixing dataframe
@@ -21,7 +23,11 @@ depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
 depth$Date <- format(as.Date(depth$`Date/Time`), "%m/%Y")
 
 #getting it to group by month and then average it out!
-average <- aggregate(Depth ~ Date, depth, FUN = mean)
+#average <- aggregate(Depth ~ Date, depth, FUN = mean)
+average <- depth %>% 
+  group_by(Date) %>% 
+  summarise(mean = mean(Depth),
+            SE = std.error(Depth))
 
 #going to just make it an excel sheet since I have it in an easier format now
 #write_xlsx(average, 'Water_Depth.xlsx')
@@ -33,7 +39,7 @@ depth %>% ggplot() + geom_point(aes(x = `Date/Time` , y = Depth)) + theme(axis.t
 
 depth %>% ggplot() + geom_point(aes(x = Date , y = Depth)) + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank())
 
-average %>% ggplot() + geom_point(aes(x = Date, y = Depth)) + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020'))
+average %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Depth') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020'))
 #all over the place
 ```
 
@@ -95,10 +101,111 @@ average$Season <- gsub('12/2020', 'Winter', average$Season)
 
 #making season graphs
 ```{r}
-average %>% ggplot() + geom_boxplot(aes(x = Season, y = Depth))
+average %>% ggplot() + geom_boxplot(aes(x = Season, y = Depth)) + ggtitle('Water Depth Between Seasons')
 season.aov <- aov(Depth ~ Season, average)
 summary(season.aov)
 TukeyHSD(season.aov)
 #Winter is lower than all other seasons- very significant
+```
+
+#making season column in depth df
+```{r}
+depth$Hour <- hour(depth$`Date/Time`)
+depth$Season <- depth$Date
+
+depth$Season <- depth$Date
+depth$Season <- gsub('01/2017', 'Winter', depth$Season) 
+depth$Season <- gsub('02/2017', 'Winter', depth$Season) 
+depth$Season <- gsub('03/2017', 'Spring', depth$Season) 
+depth$Season <- gsub('04/2017', 'Spring', depth$Season) 
+depth$Season <- gsub('05/2017', 'Spring', depth$Season) 
+depth$Season <- gsub('06/2017', 'Summer', depth$Season) 
+depth$Season <- gsub('07/2017', 'Summer', depth$Season) 
+depth$Season <- gsub('08/2017', 'Summer', depth$Season) 
+depth$Season <- gsub('09/2017', 'Fall', depth$Season) 
+depth$Season <- gsub('10/2017', 'Fall', depth$Season) 
+depth$Season <- gsub('11/2017', 'Fall', depth$Season) 
+depth$Season <- gsub('12/2017', 'Winter', depth$Season) 
+
+depth$Season <- gsub('01/2018', 'Winter', depth$Season) 
+depth$Season <- gsub('02/2018', 'Winter', depth$Season) 
+depth$Season <- gsub('03/2018', 'Spring', depth$Season) 
+depth$Season <- gsub('04/2018', 'Spring', depth$Season) 
+depth$Season <- gsub('05/2018', 'Spring', depth$Season) 
+depth$Season <- gsub('06/2018', 'Summer', depth$Season) 
+depth$Season <- gsub('07/2018', 'Summer', depth$Season) 
+depth$Season <- gsub('08/2018', 'Summer', depth$Season) 
+depth$Season <- gsub('09/2018', 'Fall', depth$Season) 
+depth$Season <- gsub('10/2018', 'Fall', depth$Season) 
+depth$Season <- gsub('11/2018', 'Fall', depth$Season) 
+depth$Season <- gsub('12/2018', 'Winter', depth$Season) 
+
+depth$Season <- gsub('01/2019', 'Winter', depth$Season) 
+depth$Season <- gsub('02/2019', 'Winter', depth$Season) 
+depth$Season <- gsub('03/2019', 'Spring', depth$Season) 
+depth$Season <- gsub('04/2019', 'Spring', depth$Season) 
+depth$Season <- gsub('05/2019', 'Spring', depth$Season) 
+depth$Season <- gsub('06/2019', 'Summer', depth$Season) 
+depth$Season <- gsub('07/2019', 'Summer', depth$Season) 
+depth$Season <- gsub('08/2019', 'Summer', depth$Season) 
+depth$Season <- gsub('09/2019', 'Fall', depth$Season) 
+depth$Season <- gsub('10/2019', 'Fall', depth$Season) 
+depth$Season <- gsub('11/2019', 'Fall', depth$Season) 
+depth$Season <- gsub('12/2019', 'Winter', depth$Season) 
+
+depth$Season <- gsub('01/2020', 'Winter', depth$Season) 
+depth$Season <- gsub('02/2020', 'Winter', depth$Season) 
+depth$Season <- gsub('03/2020', 'Spring', depth$Season) 
+depth$Season <- gsub('04/2020', 'Spring', depth$Season) 
+depth$Season <- gsub('05/2020', 'Spring', depth$Season) 
+depth$Season <- gsub('06/2020', 'Summer', depth$Season) 
+depth$Season <- gsub('07/2020', 'Summer', depth$Season) 
+depth$Season <- gsub('08/2020', 'Summer', depth$Season) 
+depth$Season <- gsub('09/2020', 'Fall', depth$Season) 
+depth$Season <- gsub('10/2020', 'Fall', depth$Season) 
+depth$Season <- gsub('11/2020', 'Fall', depth$Season) 
+depth$Season <- gsub('12/2020', 'Winter', depth$Season)
+```
+
+#making seasonal df
+```{r}
+winter <- depth %>% subset(Season == 'Winter')
+spring <- depth %>% subset(Season == 'Spring')
+summer <- depth %>% subset(Season == 'Summer')
+fall <- depth %>% subset(Season == 'Fall')
+```
+
+#calculating mean and SE for each hour
+```{r}
+winter.mean <- winter %>% 
+  group_by(Hour) %>% 
+  summarise(mean = mean(Depth),
+            SE = std.error(Depth))
+
+spring.mean <- spring %>% 
+  group_by(Hour) %>%
+  summarise(mean = mean(Depth),
+            SE = std.error(Depth))
+
+summer.mean <- summer %>% 
+  group_by(Hour) %>%
+  summarise(mean = mean(Depth),
+            SE = std.error(Depth))
+
+fall.mean <- fall %>% 
+  group_by(Hour) %>%
+  summarise(mean = mean(Depth),
+            SE = std.error(Depth))
+```
+
+#making graphs for hourly water depth each season
+```{r}
+winter.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Winter')
+
+spring.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Spring')
+
+summer.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Summer')
+
+fall.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Fall')
 ```
 
