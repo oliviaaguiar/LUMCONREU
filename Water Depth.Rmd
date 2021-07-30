@@ -20,7 +20,9 @@ library(lubridate)
 #fixing dataframe
 ```{r}
 depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
-depth$Date <- format(as.Date(depth$`Date/Time`), "%m/%Y")
+depth$`Month/Year` <- format(as.Date(depth$`Date/Time`), "%m/%Y")
+depth$`Month/Date` <- format(as.Date(depth$`Date/Time`), '%m/%d')
+depth$Year <- format(as.Date(depth$`Date/Time`), '%Y')
 
 #getting it to group by month and then average it out!
 #average <- aggregate(Depth ~ Date, depth, FUN = mean)
@@ -207,5 +209,25 @@ spring.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = m
 summer.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Summer')
 
 fall.mean %>% ggplot(aes(x = Hour, y = mean)) + geom_point(aes(x = Hour, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Hour') + ylab('Water Depth') + ggtitle('Hourly Water Depth During Fall')
+```
+
+#separating yearly
+```{r}
+#2017
+d17 <- depth %>% subset(Year == '2017')
+monthlabel <- c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+d17 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2017')
+
+#2018
+d18 <- depth %>% subset(Year == '2018')
+d18 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2018')
+
+#2019
+d19 <- depth %>% subset(Year == '2019')
+d19 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2019')
+
+#2020
+d20 <- depth %>% subset(Year == '2020')
+d20 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2020')
 ```
 
