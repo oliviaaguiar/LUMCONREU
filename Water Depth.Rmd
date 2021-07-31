@@ -23,6 +23,7 @@ depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
 depth$`Month/Year` <- format(as.Date(depth$`Date/Time`), "%m/%Y")
 depth$`Month/Date` <- format(as.Date(depth$`Date/Time`), '%m/%d')
 depth$Year <- format(as.Date(depth$`Date/Time`), '%Y')
+depth$Month <- format(as.Date(depth$`Date/Time`), '%m')
 
 #getting it to group by month and then average it out!
 #average <- aggregate(Depth ~ Date, depth, FUN = mean)
@@ -229,5 +230,21 @@ d19 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text
 #2020
 d20 <- depth %>% subset(Year == '2020')
 d20 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2020')
+```
+
+#boxplot of years
+```{r}
+depth %>% ggplot() + geom_boxplot(aes(x = Year, y = Depth)) + ggtitle('Water Depth')
+```
+
+#monthly boxplot for each year
+```{r}
+depth %>% subset(Year == '2017') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2017')
+
+depth %>% subset(Year == '2018') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2018')
+
+depth %>% subset(Year == '2019') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2019')
+
+depth %>% subset(Year == '2020') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2020')
 ```
 
