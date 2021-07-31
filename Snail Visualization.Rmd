@@ -19,6 +19,7 @@ When you click the **Knit** button a document will be generated that includes bo
 library(tidyverse)
 library(Biostatistics)
 library(readxl)
+library(plotrix)
 ```
 
 #load data
@@ -462,7 +463,6 @@ TukeyHSD(LUM2.year.aov)
 #2020-2017, 2021-2017, 2020-2018, 2021-2018
 ```
 
-
 #LUM3 yearly
 ```{r}
 LUM3$year <- as.character(LUM3$year)
@@ -477,3 +477,129 @@ TukeyHSD(LUM3.year.aov)
 #2020-2017, 2021-2017, 2020-2018, ~2021-2018
 ```
 
+#monthly point graphs
+#LUM1
+```{r}
+LUM1.17.p <- LUM1.17 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM1.17.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM1 2017 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM1.18.p <- LUM1.18 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM1.18.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM1 2018 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM1.19.p <- LUM1.19 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM1.19.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM1 2019 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM1.20.p <- LUM1.20 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM1.20.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM1 2020 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM1.21.p <- LUM1.21 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM1.21.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM1 2021 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
+
+#LUM2
+```{r}
+LUM2.17.p <- LUM2.17 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM2.17.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM2 2017 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM2.18.p <- LUM2.18 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM2.18.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM2 2018 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM2.19.p <- LUM2.19 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM2.19.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM2 2019 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM2.20.p <- LUM2.20 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM2.20.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM2 2020 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM2.21.p <- LUM2.21 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM2.21.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM2 2021 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
+
+#LUM3
+```{r}
+LUM3.17.p <- LUM3.17 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM3.17.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM3 2017 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM3.18.p <- LUM3.18 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM3.18.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM3 2018 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM3.19.p <- LUM3.19 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM3.19.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM3 2019 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM3.20.p <- LUM3.20 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM3.20.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM3 2020 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+
+LUM3.21.p <- LUM3.21 %>% 
+  group_by(month_name) %>% 
+  summarise(mean = mean(Li_density_m2),
+            SE = std.error(Li_density_m2))
+
+LUM3.21.p %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + ggtitle('LUM3 2021 Densities') + geom_errorbar(aes(ymin=mean-SE, ymax=mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
