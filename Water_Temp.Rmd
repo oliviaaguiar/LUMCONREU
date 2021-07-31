@@ -1,0 +1,132 @@
+---
+title: "Water_Temp"
+author: "Olivia Aguiar"
+date: "7/31/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(Biostatistics)
+library(plotrix)
+library(lubridate)
+```
+
+```{r}
+big <- read_xlsx('MC_Salinity_WaterTemp.xlsx', sheet = 'MC_WaterTemp') %>% na.omit()
+big$Date <- format(as.Date(big$`Date/Time`), "%m/%d/%Y")
+big$`Month/Year` <- format(as.Date(big$`Date/Time`), "%m/%Y")
+big$`Month/Date` <- format(as.Date(big$`Date/Time`), '%m/%d')
+big$Year <- format(as.Date(big$`Date/Time`), '%Y')
+big$Month <- format(as.Date(big$`Date/Time`), '%m')
+```
+
+#yearly boxplot
+```{r}
+big %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021') %>% ggplot() + geom_boxplot(aes(x = Year, y = Temp)) + ggtitle('Water Temperature (C)')
+
+step <- big %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021')
+```
+
+#monthly boxplots
+```{r}
+#2017
+big %>% subset(Year == '2017') %>% ggplot() + geom_boxplot(aes(x = Month, y = Temp)) + ggtitle('Water Temperature in 2017 (C)')
+
+#2018
+big %>% subset(Year == '2018') %>% ggplot() + geom_boxplot(aes(x = Month, y = Temp)) + ggtitle('Water Temperature in 2018 (C)')
+
+#2019
+big %>% subset(Year == '2019') %>% ggplot() + geom_boxplot(aes(x = Month, y = Temp)) + ggtitle('Water Temperature in 2019 (C)')
+
+#2020
+big %>% subset(Year == '2020') %>% ggplot() + geom_boxplot(aes(x = Month, y = Temp)) + ggtitle('Water Temperature in 2020 (C)')
+
+#2021
+big %>% subset(Year == '2021') %>% ggplot() + geom_boxplot(aes(x = Month, y = Temp)) + ggtitle('Water Temperature in 2021 (C)')
+```
+
+#making season column
+```{r}
+average <- step %>% 
+  group_by(`Month/Year`) %>% 
+  summarise(mean = mean(Temp),
+            SE = std.error(Temp))
+average$Season <- average$`Month/Year`
+average$Season <- gsub('01/2017', 'Winter', average$Season) 
+average$Season <- gsub('02/2017', 'Winter', average$Season) 
+average$Season <- gsub('03/2017', 'Spring', average$Season) 
+average$Season <- gsub('04/2017', 'Spring', average$Season) 
+average$Season <- gsub('05/2017', 'Spring', average$Season) 
+average$Season <- gsub('06/2017', 'Summer', average$Season) 
+average$Season <- gsub('07/2017', 'Summer', average$Season) 
+average$Season <- gsub('08/2017', 'Summer', average$Season) 
+average$Season <- gsub('09/2017', 'Fall', average$Season) 
+average$Season <- gsub('10/2017', 'Fall', average$Season) 
+average$Season <- gsub('11/2017', 'Fall', average$Season) 
+average$Season <- gsub('12/2017', 'Winter', average$Season)
+
+average$Season <- gsub('01/2018', 'Winter', average$Season) 
+average$Season <- gsub('02/2018', 'Winter', average$Season) 
+average$Season <- gsub('03/2018', 'Spring', average$Season) 
+average$Season <- gsub('04/2018', 'Spring', average$Season) 
+average$Season <- gsub('05/2018', 'Spring', average$Season) 
+average$Season <- gsub('06/2018', 'Summer', average$Season) 
+average$Season <- gsub('07/2018', 'Summer', average$Season) 
+average$Season <- gsub('08/2018', 'Summer', average$Season) 
+average$Season <- gsub('09/2018', 'Fall', average$Season) 
+average$Season <- gsub('10/2018', 'Fall', average$Season) 
+average$Season <- gsub('11/2018', 'Fall', average$Season) 
+average$Season <- gsub('12/2018', 'Winter', average$Season) 
+
+average$Season <- gsub('01/2019', 'Winter', average$Season) 
+average$Season <- gsub('02/2019', 'Winter', average$Season) 
+average$Season <- gsub('03/2019', 'Spring', average$Season) 
+average$Season <- gsub('04/2019', 'Spring', average$Season) 
+average$Season <- gsub('05/2019', 'Spring', average$Season) 
+average$Season <- gsub('06/2019', 'Summer', average$Season) 
+average$Season <- gsub('07/2019', 'Summer', average$Season) 
+average$Season <- gsub('08/2019', 'Summer', average$Season) 
+average$Season <- gsub('09/2019', 'Fall', average$Season) 
+average$Season <- gsub('10/2019', 'Fall', average$Season) 
+average$Season <- gsub('11/2019', 'Fall', average$Season) 
+average$Season <- gsub('12/2019', 'Winter', average$Season) 
+
+average$Season <- gsub('01/2020', 'Winter', average$Season) 
+average$Season <- gsub('02/2020', 'Winter', average$Season) 
+average$Season <- gsub('03/2020', 'Spring', average$Season) 
+average$Season <- gsub('04/2020', 'Spring', average$Season) 
+average$Season <- gsub('05/2020', 'Spring', average$Season) 
+average$Season <- gsub('06/2020', 'Summer', average$Season) 
+average$Season <- gsub('07/2020', 'Summer', average$Season) 
+average$Season <- gsub('08/2020', 'Summer', average$Season) 
+average$Season <- gsub('09/2020', 'Fall', average$Season) 
+average$Season <- gsub('10/2020', 'Fall', average$Season) 
+average$Season <- gsub('11/2020', 'Fall', average$Season) 
+average$Season <- gsub('12/2020', 'Winter', average$Season) 
+
+average$Season <- gsub('01/2021', 'Winter', average$Season) 
+average$Season <- gsub('02/2021', 'Winter', average$Season) 
+average$Season <- gsub('03/2021', 'Spring', average$Season) 
+average$Season <- gsub('04/2021', 'Spring', average$Season) 
+average$Season <- gsub('05/2021', 'Spring', average$Season)
+```
+
+#monthly for whole study period
+```{r}
+average %>% ggplot(aes(x=`Month/Year`, y=mean)) + geom_point(aes(x=`Month/Year`, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Temperature') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020', '01/2021', '02/2021', '03/2021', '04/2021', '05/2021'))
+```
+
+#seasonal plot
+```{r}
+average %>% ggplot() + geom_boxplot(aes(x = Season, y = mean)) + ggtitle('Water Temperature Between Seasons') + ylab('Water Temperature')
+season.aov <- aov(mean ~ Season, average)
+summary(season.aov)
+TukeyHSD(season.aov)
+```
+
