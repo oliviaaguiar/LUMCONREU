@@ -154,3 +154,127 @@ snail3.aov <- aov(Nu_density_m2 ~ season, snail3)
 summary(snail3.aov)
 ```
 
+#yearly plot
+```{r}
+snail1$year <- as.character(snail1$year)
+snail1 %>% ggplot() + geom_boxplot(aes(x = year, y = Nu_density_m2)) + xlab('Year') + ylab('Nerite density (m2)') + ggtitle('LUM1')
+
+snail2$year <- as.character(snail2$year)
+snail2 %>% ggplot() + geom_boxplot(aes(x = year, y = Nu_density_m2)) + xlab('Year') + ylab('Nerite density (m2)') + ggtitle('LUM2')
+
+snail3$year <- as.character(snail3$year)
+snail2 %>% ggplot() + geom_boxplot(aes(x = year, y = Nu_density_m2)) + xlab('Year') + ylab('Nerite density (m2)') + ggtitle('LUM3')
+```
+
+#monthly plots
+#LUM1
+```{r}
+snail1.17 <- snail1 %>% subset(year == '2017') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail1.17 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM1 Nerite Density in 2017')
+
+
+snail1.18 <- snail1 %>% subset(year == '2018') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail1.18 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM1 Nerite Density in 2018')
+
+
+snail1.19 <- snail1 %>% subset(year == '2019') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2), 
+            SE = std.error(Nu_density_m2))
+snail1.19 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM1 Nerite Density in 2019')
+
+
+snail1.20 <- snail1 %>% subset(year == '2020') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail1.20 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM1 Nerite Density in 2020')
+
+
+snail1.21 <- snail1 %>% subset(year == '2021') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail1.21 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM1 Nerite Density in 2021')
+```
+
+#LUM2
+```{r}
+snail2.17 <- snail2 %>% subset(year == '2017') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail2.17 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM2 Nerite Density in 2017')
+
+
+snail2.18 <- snail2 %>% subset(year == '2018') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail2.18 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM2 Nerite Density in 2018')
+
+
+snail2.19 <- snail2 %>% subset(year == '2019') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2), 
+            SE = std.error(Nu_density_m2))
+snail2.19 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM2 Nerite Density in 2019')
+
+
+snail2.20 <- snail2 %>% subset(year == '2020') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail2.20 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM2 Nerite Density in 2020')
+
+
+snail2.21 <- snail2 %>% subset(year == '2021') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail2.21 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM2 Nerite Density in 2021')
+```
+
+#LUM3
+```{r}
+snail3.17 <- snail3 %>% subset(year == '2017') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail3.17 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM3 Nerite Density in 2017')
+
+
+snail3.18 <- snail3 %>% subset(year == '2018') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail3.18 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM3 Nerite Density in 2018')
+
+
+snail3.19 <- snail3 %>% subset(year == '2019') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2), 
+            SE = std.error(Nu_density_m2))
+snail3.19 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM3 Nerite Density in 2019')
+
+
+snail3.20 <- snail3 %>% subset(year == '2020') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail3.20 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM3 Nerite Density in 2020')
+
+
+snail3.21 <- snail3 %>% subset(year == '2021') %>%
+  group_by(month_name) %>%
+  summarise(mean = mean(Nu_density_m2),
+            SE = std.error(Nu_density_m2))
+snail3.21 %>% ggplot(aes(x=month_name, y=mean)) + geom_point(aes(x=month_name, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Month') + ylab('Nerite Density') + ggtitle('LUM3 Nerite Density in 2021')
+```
+
