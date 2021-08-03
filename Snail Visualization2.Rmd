@@ -9,22 +9,143 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(tidyverse)
+library(Biostatistics)
+library(readxl)
+library(plotrix)
 ```
 
-## Including Plots
+```{r}
+snail <- read_xlsx('LUMSnails_Density_Master_Olivia_08.03.21.xlsx')
+snail$year <- as.character(snail$year)
+snail$season <- snail$month_name
+snail$season <- gsub('Dec', 'Winter', snail$season)
+snail$season <- gsub('Jan', 'Winter', snail$season)
+snail$season <- gsub('Feb', 'Winter', snail$season)
+snail$season <- gsub('Mar', 'Spring', snail$season)
+snail$season <- gsub('Apr', 'Spring', snail$season)
+snail$season <- gsub('May', 'Spring', snail$season)
+snail$season <- gsub('Jun', 'Summer', snail$season)
+snail$season <- gsub('Jul', 'Summer', snail$season)
+snail$season <- gsub('Aug', 'Summer', snail$season)
+snail$season <- gsub('Sep', 'Fall', snail$season)
+snail$season <- gsub('Oct', 'Fall', snail$season)
+snail$season <- gsub('Nov', 'Fall', snail$season)
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+snail1 <- snail %>% subset(site == 'LUM1')
+snail2 <- snail %>% subset(site == 'LUM2')
+snail3 <- snail %>% subset(site == 'LUM3')
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#data frame for lit averages by study month
+```{r}
+#LUM1
+average1 <- snail1 %>%
+  group_by(Date) %>%
+  summarise(
+    Season = season,
+    Month = month_name,
+    Year = year,
+    Mean = mean(Li_density_m2),
+    SE = std.error(Li_density_m2)
+  )
+
+#LUM2
+average2 <- snail2 %>%
+  group_by(Date) %>%
+  summarise(
+    Season = season,
+    Month = month_name,
+    Year = year,
+    Mean = mean(Li_density_m2),
+    SE = std.error(Li_density_m2)
+  )
+
+#LUM3
+average3 <- snail3 %>%
+  group_by(Date) %>%
+  summarise(
+    Season = season,
+    Month = month_name,
+    Year = year,
+    Mean = mean(Li_density_m2),
+    SE = std.error(Li_density_m2)
+  )
+```
+
+#monthly plots for each year
+#LUM1
+```{r}
+month_order <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+average1 %>% subset(Year == '2017') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM1 2017 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average1 %>% subset(Year == '2018') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM1 2018 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average1 %>% subset(Year == '2019') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM1 2019 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average1 %>% subset(Year == '2020') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM1 2020 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+month_order2 <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun')
+average1 %>% subset(Year == '2021') %>% ggplot(aes(x=factor(Month, levels = month_order2), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM1 2021 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
+
+#LUM2
+```{r}
+average2 %>% subset(Year == '2017') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM2 2017 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average2 %>% subset(Year == '2018') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM2 2018 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average2 %>% subset(Year == '2019') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM2 2019 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average2 %>% subset(Year == '2020') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM2 2020 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average2 %>% subset(Year == '2021') %>% ggplot(aes(x=factor(Month, levels = month_order2), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM2 2021 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
+
+#LUM3
+```{r}
+average3 %>% subset(Year == '2017') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM3 2017 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average3 %>% subset(Year == '2018') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM3 2018 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average3 %>% subset(Year == '2019') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM3 2019 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average3 %>% subset(Year == '2020') %>% ggplot(aes(x=factor(Month, levels = month_order), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM3 2020 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+
+average3 %>% subset(Year == '2021') %>% ggplot(aes(x=factor(Month, levels = month_order2), y=Mean)) + geom_point(aes(x=factor(Month, levels = month_order), y=Mean)) + ggtitle('LUM3 2021 Densities') + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + xlab('Month') + ylab('Littoraria Density (m2)')
+```
+
+#boxplot of years
+```{r}
+snail1 %>% ggplot() + geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
+
+snail2 %>% ggplot() + geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+
+snail3 %>% ggplot() + geom_boxplot(aes(x = year, y = Li_density_m2)) + xlab('Year') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
+```
+
+#boxplot of sites
+```{r}
+snail %>% ggplot() + geom_boxplot(aes(x = site, y = Li_density_m2)) + xlab('Site') + ylab('Littoraria Density (m2)')
+```
+
+#seasonal between sites
+```{r}
+snail1 %>% ggplot() + geom_boxplot(aes(x = season, y = Li_density_m2)) + xlab('Site') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
+
+snail2 %>% ggplot() + geom_boxplot(aes(x = season, y = Li_density_m2)) + xlab('Site') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+
+snail3 %>% ggplot() + geom_boxplot(aes(x = season, y = Li_density_m2)) + xlab('Site') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
+```
+
+#monthly plot of entire study period
+```{r}
+level_order <- c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017','01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018','01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019','01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020','01/2021', '02/2021', '03/2021', '04/2021', '05/2021', '06/2021', '07/2021', '08/2021', '09/2021', '10/2021', '11/2021', '12/2021')
+average1 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
+
+average2 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+
+average3 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
+```
+
