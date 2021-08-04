@@ -20,17 +20,19 @@ library(lubridate)
 #fixing dataframe
 ```{r}
 depth <- read_xlsx('MC_WaterDepth_Olivia.xlsx') %>% na.omit()
-depth$`Month/Year` <- format(as.Date(depth$`Date/Time`), "%m/%Y")
-depth$`Month/Date` <- format(as.Date(depth$`Date/Time`), '%m/%d')
-depth$Year <- format(as.Date(depth$`Date/Time`), '%Y')
-depth$Month <- format(as.Date(depth$`Date/Time`), '%m')
+new <- read_xlsx('MC_WaterDepth_Salinity_WaterTemp.xlsx', sheet = 'Water Depth')
+combined <- rbind(depth, new)
+combined$`Month/Year` <- format(as.Date(combined$`Date/Time`), "%m/%Y")
+combined$`Month/Date` <- format(as.Date(combined$`Date/Time`), '%m/%d')
+combined$Year <- format(as.Date(combined$`Date/Time`), '%Y')
+combined$Month <- format(as.Date(combined$`Date/Time`), '%m')
 
 #getting it to group by month and then average it out!
 #average <- aggregate(Depth ~ Date, depth, FUN = mean)
-average <- depth %>% 
-  group_by(Date) %>% 
-  summarise(mean = mean(Depth),
-            SE = std.error(Depth))
+average <- combined %>% 
+  group_by(`Month/Year`) %>% 
+  summarise(mean = mean(Depth, na.rm=TRUE),
+            SE = std.error(Depth)) %>% subset(mean != "NaN")
 
 #going to just make it an excel sheet since I have it in an easier format now
 #write_xlsx(average, 'Water_Depth.xlsx')
@@ -42,13 +44,13 @@ depth %>% ggplot() + geom_point(aes(x = `Date/Time` , y = Depth)) + theme(axis.t
 
 depth %>% ggplot() + geom_point(aes(x = Date , y = Depth)) + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank())
 
-average %>% ggplot(aes(x=Date, y=mean)) + geom_point(aes(x=Date, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Depth') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020'))
+average %>% ggplot(aes(x=`Month/Year`, y=mean)) + geom_point(aes(x=`Month/Year`, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Depth') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020', '01/2021', '02/2021', '03/2021', '04/2021', '05/2021', '06/2021'))
 #all over the place
 ```
 
 #trying to make a season column
 ```{r}
-average$Season <- average$Date
+average$Season <- average$`Month/Year`
 average$Season <- gsub('01/2017', 'Winter', average$Season) 
 average$Season <- gsub('02/2017', 'Winter', average$Season) 
 average$Season <- gsub('03/2017', 'Spring', average$Season) 
@@ -99,13 +101,20 @@ average$Season <- gsub('08/2020', 'Summer', average$Season)
 average$Season <- gsub('09/2020', 'Fall', average$Season) 
 average$Season <- gsub('10/2020', 'Fall', average$Season) 
 average$Season <- gsub('11/2020', 'Fall', average$Season) 
-average$Season <- gsub('12/2020', 'Winter', average$Season) 
+average$Season <- gsub('12/2020', 'Winter', average$Season)
+
+average$Season <- gsub('01/2021', 'Winter', average$Season) 
+average$Season <- gsub('02/2021', 'Winter', average$Season) 
+average$Season <- gsub('03/2021', 'Spring', average$Season) 
+average$Season <- gsub('04/2021', 'Spring', average$Season) 
+average$Season <- gsub('05/2021', 'Spring', average$Season) 
+average$Season <- gsub('06/2021', 'Summer', average$Season) 
 ```
 
 #making season graphs
 ```{r}
-average %>% ggplot() + geom_boxplot(aes(x = Season, y = Depth)) + ggtitle('Water Depth Between Seasons')
-season.aov <- aov(Depth ~ Season, average)
+average %>% ggplot() + geom_boxplot(aes(x = Season, y = mean)) + ggtitle('Water Depth Between Seasons')
+season.aov <- aov(mean ~ Season, average)
 summary(season.aov)
 TukeyHSD(season.aov)
 #Winter is lower than all other seasons- very significant
@@ -114,9 +123,13 @@ TukeyHSD(season.aov)
 #making season column in depth df
 ```{r}
 depth$Hour <- hour(depth$`Date/Time`)
-depth$Season <- depth$Date
+depth$`Month/Year` <- format(as.Date(depth$`Date/Time`), "%m/%Y")
+depth$`Month/Date` <- format(as.Date(depth$`Date/Time`), '%m/%d')
+depth$Year <- format(as.Date(depth$`Date/Time`), '%Y')
+depth$Month <- format(as.Date(depth$`Date/Time`), '%m')
+depth$Season <- depth$`Month/Year`
 
-depth$Season <- depth$Date
+depth$Season <- depth$`Month/Year`
 depth$Season <- gsub('01/2017', 'Winter', depth$Season) 
 depth$Season <- gsub('02/2017', 'Winter', depth$Season) 
 depth$Season <- gsub('03/2017', 'Spring', depth$Season) 
@@ -230,11 +243,19 @@ d19 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text
 #2020
 d20 <- depth %>% subset(Year == '2020')
 d20 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2020')
+
+#2021
+new$`Month/Year` <- format(as.Date(new$`Date/Time`), "%m/%Y")
+new$`Month/Date` <- format(as.Date(new$`Date/Time`), '%m/%d')
+new$Year <- format(as.Date(new$`Date/Time`), '%Y')
+new$Month <- format(as.Date(new$`Date/Time`), '%m')
+monthlabel2 <- c('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun')
+new %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel2, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01')) + ggtitle('2021')
 ```
 
 #boxplot of years
 ```{r}
-depth %>% ggplot() + geom_boxplot(aes(x = Year, y = Depth)) + ggtitle('Water Depth')
+combined %>% na.omit() %>% ggplot() + geom_boxplot(aes(x = Year, y = Depth)) + ggtitle('Water Depth')
 ```
 
 #monthly boxplot for each year
@@ -246,5 +267,7 @@ depth %>% subset(Year == '2018') %>% ggplot() + geom_boxplot(aes(x = Month, y = 
 depth %>% subset(Year == '2019') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2019')
 
 depth %>% subset(Year == '2020') %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2020')
+
+new %>% na.omit() %>% ggplot() + geom_boxplot(aes(x = Month, y = Depth)) + ggtitle('Water Depth 2021')
 ```
 
