@@ -19,12 +19,13 @@ library(lubridate)
 
 ```{r}
 big <- read_xlsx('MC_Salinity_WaterTemp.xlsx', sheet = 'MC_Salinity') %>% na.omit()
-big$Date <- format(as.Date(big$`Date/Time`), "%m/%d/%Y")
-big$`Month/Year` <- format(as.Date(big$`Date/Time`), "%m/%Y")
-big$`Month/Date` <- format(as.Date(big$`Date/Time`), '%m/%d')
-big$Year <- format(as.Date(big$`Date/Time`), '%Y')
-big$Month <- format(as.Date(big$`Date/Time`), '%m')
-sal <- big %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021')
+new <- read_xlsx('MC_WaterDepth_Salinity_WaterTemp.xlsx', sheet = 'Salinity')
+combined <- rbind(big, new)
+combined$`Month/Year` <- format(as.Date(combined$`Date/Time`), "%m/%Y")
+combined$`Month/Date` <- format(as.Date(combined$`Date/Time`), '%m/%d')
+combined$Year <- format(as.Date(combined$`Date/Time`), '%Y')
+combined$Month <- format(as.Date(combined$`Date/Time`), '%m')
+sal <- combined %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021')
 ```
 
 #yearly boxplot
@@ -50,6 +51,10 @@ sal %>% subset(Year == '2019') %>% ggplot() + geom_boxplot(aes(x = Month, y = Sa
 
 #2020
 sal %>% subset(Year == '2020') %>% ggplot() + geom_boxplot(aes(x = Month, y = Sal)) + ylab('Salinity') + ggtitle('Water Salinity in 2020')
+
+#2021
+sal %>% subset(Year == '2021') %>% ggplot() + geom_boxplot(aes(x = Month, y = Sal)) + ylab('Salinity') + ggtitle('Water Salinity in 2021')
+
 ```
 
 #seasonal boxplot
@@ -114,9 +119,9 @@ sal %>% ggplot() + geom_boxplot(aes(x = Season, y = Sal)) + ylab('Water Salinity
 ```{r}
 average <- sal %>% 
   group_by(`Month/Year`) %>% 
-  summarise(mean = mean(Sal),
+  summarise(mean = mean(Sal, na.rm = TRUE),
             SE = std.error(Sal))
-average %>% ggplot(aes(x=`Month/Year`, y=mean)) + geom_point(aes(x=`Month/Year`, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Salinity') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020'))
+average %>% ggplot(aes(x=`Month/Year`, y=mean)) + geom_point(aes(x=`Month/Year`, y=mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Water Salinity') + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank()) + scale_x_discrete(limits = c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017', '01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018', '01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019', '01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020', '01/2021', '02/2021', '03/2021', '04/2021', '05/2021', '06/2021'))
 ```
 
 #Neritinia usnea threshold: <18
