@@ -149,3 +149,16 @@ average2 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geo
 average3 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
 ```
 
+#making graph of periwinkle density during the whole study period
+```{r}
+grouped <- snail %>%
+  group_by(Date) %>%
+  summarise(
+    Mean = mean(Li_density_m2),
+    SE = std.error(Li_density_m2),
+    Year = year
+  )
+
+grouped %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)')
+```
+

@@ -149,6 +149,8 @@ sum(with(litdays2,Year == "2019"))
 #51 days in 2019
 sum(with(litdays2,Year == "2020"))
 #31 days in 2020
+sum(with(litdays2,Year == "2021"))
+#0
 ```
 
 #looking at above nerite threshold
@@ -169,5 +171,7 @@ sum(with(nerdays2,Year == "2019"))
 #9 days in 2019
 sum(with(nerdays2,Year == "2020"))
 #34
+sum(with(nerdays2,Year == "2021"))
+#0
 ```
 
