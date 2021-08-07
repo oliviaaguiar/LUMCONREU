@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(tidyverse)
 library(Biostatistics)
+library(plotrix)
 ```
 
 #bring in data
@@ -160,5 +161,10 @@ ggplot(plants2, aes(x = year, y = density, fill = status)) + geom_col(position =
 #LUM3 yearly
 ```{r}
 ggplot(plants3, aes(x = year, y = density, fill = status)) + geom_col(position = 'fill') + xlab('Date') + ylab('Propotion of Dead to Live Stems') + ggtitle('LUM3')
+```
+
+#all stem density
+```{r}
+
 ```
 
