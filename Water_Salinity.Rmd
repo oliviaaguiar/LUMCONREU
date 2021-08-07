@@ -25,6 +25,7 @@ combined$`Month/Year` <- format(as.Date(combined$`Date/Time`), "%m/%Y")
 combined$`Month/Date` <- format(as.Date(combined$`Date/Time`), '%m/%d')
 combined$Year <- format(as.Date(combined$`Date/Time`), '%Y')
 combined$Month <- format(as.Date(combined$`Date/Time`), '%m')
+combined$Date <- format(as.Date(combined$`Date/Time`), '%m/%d/%Y')
 sal <- combined %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021')
 ```
 
@@ -173,5 +174,26 @@ sum(with(nerdays2,Year == "2020"))
 #34
 sum(with(nerdays2,Year == "2021"))
 #0
+```
+
+#looking at entire study period
+```{r}
+#this is how to specify which x intervals to label- lebels according to month names at those breaks
+#d17 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2017')
+
+#need to make averaged calculations, ugh
+yearlabel <- c('2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021')
+#can't figure it out- going to move on to just comparing years
+
+combined %>% na.omit() %>% ggplot() + geom_boxplot(aes(x = Year, y = Sal))
+
+combined %>% group_by(Date) %>% ggplot() + geom_point(aes(x=Date, y=Sal))
+
+combined.days <- combined %>% select(`Month/Year`,Sal, Year, Month) %>% group_by(`Month/Year`,Month) %>% summarise (mean_sal=mean(Sal,na.rm = TRUE))
+
+combined.days$`Month/Year`<-my(combined.days$`Month/Year`,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+comb<-combined.days %>% ggplot() + geom_point(aes(x=`Month/Year`, y=mean_sal,color=Month)) + geom_smooth(aes(x = `Month/Year`, y = mean_sal))
+
 ```
 
