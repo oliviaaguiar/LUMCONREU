@@ -14,6 +14,7 @@ library(tidyverse)
 library(Biostatistics)
 library(readxl)
 library(plotrix)
+library(lubridate)
 ```
 
 ```{r}
@@ -158,8 +159,9 @@ grouped <- snail %>%
     SE = std.error(Li_density_m2),
     Year = year
   )
+grouped$Date<-my(grouped$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
 
-grouped %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)')
+grouped %>% ggplot(aes(x = Date, y = Mean)) + geom_point(aes(x = Date, y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + geom_smooth(method = 'lm') + xlab('Date') + ylab('Littoraria Density (m2)')
 ```
 
 #making a graph of proportion of periwinkle vs nerites through study period
