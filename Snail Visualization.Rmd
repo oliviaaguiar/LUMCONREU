@@ -47,7 +47,7 @@ summary(lit.aov.sea)
 ```{r}
 #periwinkles
 snail %>% ggplot() +
-  geom_boxplot(aes(x=site, y=Li_density_m2)) + xlab('Site') + ylab('Littoraria Density')
+  geom_boxplot(aes(x=site, y=Li_density_m2)) + xlab('Site') + ylab('Littoraria Density') + theme_bw()
 ```
 
 #anova by site
@@ -73,7 +73,7 @@ LUM3 <- read_xlsx('LUM3.xlsx')
 ```{r}
 ##LUM1
 LUM1 %>% ggplot() +
-  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle("LUM1")
+  geom_boxplot(aes(x=season, y=Li_density_m2)) + xlab('Season') + ylab('Littoraria density') + ggtitle("LUM1") + theme_bw()
 LUM1.aov.season <- aov(LUM1$Li_density_m2 ~ LUM1$season)
 summary(LUM1.aov.season)
 #p=0.406
