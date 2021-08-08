@@ -423,3 +423,12 @@ combined.days2$`Month/Year`<-my(combined.days2$`Month/Year`,quiet=FALSE, tz=NULL
 comb<-combined.days2 %>% na.omit() %>% ggplot() + geom_point(aes(x=`Month/Year`, y=min_sal,color=Month)) + geom_smooth(aes(x = `Month/Year`, y = min_sal)) + xlab('Date') + ylab('Salinity') + ggtitle('Minimum Salinity')
 ```
 
+#graph of salinity from 2011 to present
+```{r}
+graphsal <- combined %>% subset(Year == '2011'| Year == '2012' | Year == '2013' | Year == '2014' | Year == '2015' | Year == '2016' | Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021') %>% select(`Month/Year`,Sal, Year, Month) %>% group_by(`Month/Year`,Month) %>% summarise(mean_sal=mean(Sal,na.rm = TRUE), SE = std.error(Sal, na.rm = TRUE))
+
+graphsal$`Month/Year` <- my(graphsal$`Month/Year`, quiet = FALSE, tz = NULL, locale = Sys.getlocale("LC_TIME"))
+
+graphsal %>% ggplot(aes(x = `Month/Year`, y = mean_sal)) + geom_point(aes(x = `Month/Year`, y = mean_sal)) + geom_errorbar(aes(ymin = mean_sal-SE, ymax = mean_sal+SE)) + geom_smooth(method = 'lm') + theme_bw() + xlab('Date') + ylab('Salinity')
+```
+
