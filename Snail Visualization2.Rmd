@@ -162,3 +162,28 @@ grouped <- snail %>%
 grouped %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)')
 ```
 
+#making a graph of proportion of periwinkle vs nerites through study period
+```{r}
+snailnew <- snail %>% select(Date, site, Li_density_m2, Mel_density_m2, Nu_density_m2, allsnail_density_m2) %>% group_by(Date) %>% 
+  summarise(
+    mean_lit = mean(Li_density_m2),
+    litSE = std.error(Li_density_m2),
+    mean_mel = mean(Mel_density_m2),
+    melSE = std.error(Mel_density_m2),
+    mean_ner = mean(Nu_density_m2),
+    nerSE = std.error(Nu_density_m2))
+
+snailnew$total <- snailnew$mean_lit + snailnew$mean_ner
+
+snailnew$proplit <- snailnew$mean_lit/snailnew$total
+snailnew$propner <- snailnew$mean_ner/snailnew$total
+
+snailnew$Date<-my(snailnew$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+snailnew %>% ggplot() + geom_col(aes(x = Date, y = proplit)) + geom_smooth(aes(x = Date, y = proplit)) + ylab('Percent') + ggtitle('Percent Littoraria')
+
+
+snailnew %>% ggplot() + geom_col(aes(x = Date, y = propner)) + geom_smooth(aes(x = Date, y = propner)) + ylab('Percent') + ggtitle('Percent Nerites')
+
+```
+
