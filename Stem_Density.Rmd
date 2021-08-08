@@ -14,6 +14,7 @@ library(readxl)
 library(tidyverse)
 library(Biostatistics)
 library(plotrix)
+library(lubridate)
 ```
 
 #bring in data
@@ -163,8 +164,16 @@ ggplot(plants2, aes(x = year, y = density, fill = status)) + geom_col(position =
 ggplot(plants3, aes(x = year, y = density, fill = status)) + geom_col(position = 'fill') + xlab('Date') + ylab('Propotion of Dead to Live Stems') + ggtitle('LUM3')
 ```
 
-#all stem density
+#all live stem density
 ```{r}
+plants.live <- plants %>% subset(status == 'LIVE') %>% subset(year != 2016) %>% group_by(date) %>%
+  summarise(
+    mean = mean(density),
+    SE = std.error(density)
+  )
 
+plants.live$date <- my(plants.live$date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+plants.live %>% ggplot(aes(x = date, y = mean)) + geom_point(aes(c = date, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + xlab('Date') + ylab('Stem Density') + ggtitle('Live Stem Density') + theme_bw() + theme(axis.text.x = element_text(size = 7, angle = 45), axis.ticks = element_blank())
 ```
 
