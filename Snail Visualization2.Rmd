@@ -177,6 +177,9 @@ snailnew$total <- snailnew$mean_lit + snailnew$mean_ner
 
 snailnew$proplit <- snailnew$mean_lit/snailnew$total
 snailnew$propner <- snailnew$mean_ner/snailnew$total
+snailnew$proplitSE <- sqrt(snailnew$proplit * (1 - snailnew$proplit) / 9 )
+snailnew$propnerSE <- sqrt(snailnew$propner * (1 - snailnew$propner) / 9 )
+
 
 snailnew$Date<-my(snailnew$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
 
@@ -185,5 +188,12 @@ snailnew %>% ggplot() + geom_col(aes(x = Date, y = proplit)) + geom_smooth(aes(x
 
 snailnew %>% ggplot() + geom_col(aes(x = Date, y = propner)) + geom_smooth(aes(x = Date, y = propner)) + ylab('Percent') + ggtitle('Percent Nerites')
 
+```
+
+#graph of % lit and nerites but as points
+```{r}
+snailnew %>% ggplot(aes(x = Date, y = proplit)) + geom_point(aes(x = Date, y = proplit)) + geom_errorbar(aes(ymin = proplit-proplitSE, ymax = proplit+proplitSE)) + geom_smooth(method = 'lm') + theme_bw() + ylab('Percent') + ggtitle('Percent Littoraria')
+
+snailnew %>% ggplot(aes(x = Date, y = propner)) + geom_point(aes(x = Date, y = propner)) + geom_errorbar(aes(ymin = propner-propnerSE, ymax = propner+propnerSE)) + geom_smooth(method = 'lm') + theme_bw() + ylab('Percent') + ggtitle('Percent N. usnea')
 ```
 
