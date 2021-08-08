@@ -144,14 +144,47 @@ litmonth <- less %>%
 litdays2 <- read_xlsx('litdays.xlsx')
 sum(with(litdays2,Year == "2017"))
 #33 days in 2017
+#6/18-6/19
+#6/27-7/12
+#7/18-7/29
+#9/6
 sum(with(litdays2,Year == "2018"))
 #7 days in 2018
+#3/21
+#4/20
+#4/27-4/28
+#6/4-6/6
 sum(with(litdays2,Year == "2019"))
 #51 days in 2019
+#1/5-1/6
+#1/9-1/10
+#1/20
+#1/30
+#3/4-3/6
+#3/26-3/27
+#3/31
+#4/20-4/22
+#4/26-4/27
+#5/31
+#6/2-6/4
+#6/9-6/11
+#6/25-6/26
+#6/29
+#7/8-7/12
+#8/6-8/13
+#8/20-8/30
 sum(with(litdays2,Year == "2020"))
 #31 days in 2020
-sum(with(litdays2,Year == "2021"))
-#0
+#2/14
+#3/1
+#3/26-3/27
+#4/1
+#5/5-5/7
+#6/12-6/13
+#6/26-7/16
+
+litdays2$`Date`<-mdy(litdays2$`Date`,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+#####this is for month/date/year!!!! get it in a date format!!!
 ```
 
 #looking at above nerite threshold
@@ -163,22 +196,61 @@ nerdays <- more %>%
   summarise(mean = mean(Sal),
             SE = std.error(Sal))
 
+nerdays2$`Date`<-mdy(nerdays2$`Date`,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+
 nerdays2 <- read_xlsx('nerdays.xlsx')
 sum(with(nerdays2,Year == "2017"))
 #45 days in 2017
+#1/1
+#3/5-3/8
+#3/24-3/25
+#3/28-3/30
+#4/2-4/3
+#4/11-4/23
+#4/29-4/30
+#11/21-11/22
+#11/27-12/8
+#12/16-12/17
+#12/26
+#12/28
 sum(with(nerdays2,Year == "2018"))
 #43 days in 2018
+#1/7-1/12
+#1/20-1/23
+#1/25-1/27
+#2/3-2/11
+#2/13-2/14
+#2/20-2/28
+#3/5
+#3/27-3/29
+#5/2
+#5/4-5/6
+#11/24
+#12/8
 sum(with(nerdays2,Year == "2019"))
 #9 days in 2019
+#2/20
+#4/4
+#4/18
+#10/11
+#10/15
+#10/18-10/21
 sum(with(nerdays2,Year == "2020"))
 #34
-sum(with(nerdays2,Year == "2021"))
-#0
+#8/26-8/27
+#10/9-10/10
+#10/20-10/28
+#11/7-11/13
+#11/17
+#11/19-11/29
+#12/3
+#12/16
 ```
 
 #looking at entire study period
 ```{r}
-#this is how to specify which x intervals to label- lebels according to month names at those breaks
+#this is how to specify which x intervals to label- labels according to month names at those breaks
 #d17 %>% ggplot() + geom_line(aes(x = `Month/Date`, y = Depth)) + theme(axis.text.x = element_text(angle = 45)) + scale_x_discrete(labels = monthlabel, breaks = c('01/01', '02/01', '03/01', '04/01', '05/01', '06/01', '07/01', '08/01', '09/01', '10/01', '11/01', '12/01')) + ggtitle('2017')
 
 #need to make averaged calculations, ugh
@@ -187,7 +259,7 @@ yearlabel <- c('2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '
 
 combined %>% na.omit() %>% ggplot() + geom_boxplot(aes(x = Year, y = Sal))
 
-combined %>% group_by(Date) %>% ggplot() + geom_point(aes(x=Date, y=Sal))
+#combined %>% group_by(Date) %>% ggplot() + geom_point(aes(x=Date, y=Sal))
 
 combined.days <- combined %>% select(`Month/Year`,Sal, Year, Month) %>% group_by(`Month/Year`,Month) %>% summarise (mean_sal=mean(Sal,na.rm = TRUE))
 
@@ -195,5 +267,159 @@ combined.days$`Month/Year`<-my(combined.days$`Month/Year`,quiet=FALSE, tz=NULL, 
 
 comb<-combined.days %>% ggplot() + geom_point(aes(x=`Month/Year`, y=mean_sal,color=Month)) + geom_smooth(aes(x = `Month/Year`, y = mean_sal))
 
+```
+
+#looking at thresholds again but this time 2010-present
+```{r}
+litdaysnew <- combined %>% subset(Year == '2010' | Year == '2011' | Year == '2012' | Year == '2013' | Year == '2014' | Year == '2015' | Year == '2016' | Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021') %>% subset(Sal < 2) %>% group_by(`Date`) %>% 
+  summarise(mean = mean(Sal),
+            SE = std.error(Sal))
+litdaysnew$Date<-mdy(litdaysnew$Date, quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+litdaysnew$Year <- format(as.Date(litdaysnew$Date), "%Y")
+
+sum(with(litdaysnew,Year == "2010"))
+#30
+#1/5-1/13
+#2/6-2/7
+#2/10
+#2/13
+#2/16-2/19
+#3/4
+#3/13-3/18
+#3/21-3/22
+#3/28
+#3/30
+#6/18-6/19
+sum(with(litdaysnew,Year == "2011"))
+#7
+#7/21
+#7/24-7/25
+#7/27
+#8/3-8/5
+sum(with(litdaysnew,Year == "2012"))
+#0
+sum(with(litdaysnew,Year == "2013"))
+#0
+sum(with(litdaysnew,Year == "2014"))
+#9
+#7/2
+#7/16
+#7/21-7/22
+#7/26-7/30
+sum(with(litdaysnew,Year == "2015"))
+#16
+#4/2
+#4/20-4/21
+#4/27
+#4/30
+#5/1-5/3
+#6/11
+#6/27-6/30
+#7/1
+#7/13-7/14
+sum(with(litdaysnew,Year == "2016"))
+#30
+#1/23
+#1/27-1/30
+#2/9-2/13
+#2/25-2/28
+#3/23
+#3/25
+#4/5-4/8
+#6/16
+#6/18
+#7/9
+#8/14-8/15
+#8/20-8/24
+sum(with(litdaysnew,Year == "2021"))
+#6
+#4/21-4/22
+#5/30
+#6/4
+#6/13-6/14
+```
+
+#now with nerites
+```{r}
+nerdaysnew <- combined %>% subset(Year == '2010' | Year == '2011' | Year == '2012' | Year == '2013' | Year == '2014' | Year == '2015' | Year == '2016' | Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021') %>% subset(Sal > 18) %>% group_by(`Date`) %>% 
+  summarise(mean = mean(Sal),
+            SE = std.error(Sal))
+nerdaysnew$Date<-mdy(nerdaysnew$Date, quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+nerdaysnew$Year <- format(as.Date(nerdaysnew$Date), "%Y")
+
+sum(with(nerdaysnew,Year == "2010"))
+#5
+#10/23-10/24
+#10/26
+#11/29
+#12/29
+sum(with(nerdaysnew,Year == "2011"))
+#6
+#1/9-1/10
+#1/18-1/19
+#1/24-1/25
+sum(with(nerdaysnew,Year == "2012"))
+#24
+#10/23-10/28
+#11/2-11/6
+#11/9-11/11
+#11/13-11/22
+sum(with(nerdaysnew,Year == "2013"))
+#1
+#9/21
+sum(with(nerdaysnew,Year == "2014"))
+#55
+#1/25
+#2/4
+#3/27-3/29
+#4/3
+#4/6
+#4/14
+#4/28
+#5/8-5/14
+#10/19-10/24
+#10/28
+#11/4-11/11
+#11/17
+#11/21-11/25
+#12/5-12/11
+#12/14-12/14
+sum(with(nerdaysnew,Year == "2015"))
+#24
+#1/2
+#1/11-1/12
+#2/20-2/22
+#2/25
+#2/27-3/5
+#3/7-3/13
+#11/17-11/18
+#12/13
+sum(with(nerdaysnew,Year == "2016"))
+#19
+#10/15-10/16
+#11/7
+#11/28-11/30
+#12/15-12/18
+#12/23-12/31
+sum(with(nerdaysnew,Year == "2021"))
+#34
+#1/1
+#2/6-2/12
+#2/14-2/15
+#2/17-2/18
+#2/21-2/25
+#3/6-3/19
+#3/23-3/25
+```
+
+#making graph of monthly minimums of whole study period
+```{r}
+combined.days2 <- combined %>% select(`Month/Year`,Sal, Year, Month) %>% group_by(`Month/Year`,Month) %>% summarise(min_sal=min(Sal,na.rm = TRUE))
+
+combined.days2$`Month/Year`<-my(combined.days2$`Month/Year`,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+comb<-combined.days2 %>% na.omit() %>% ggplot() + geom_point(aes(x=`Month/Year`, y=min_sal,color=Month)) + geom_smooth(aes(x = `Month/Year`, y = min_sal)) + xlab('Date') + ylab('Salinity') + ggtitle('Minimum Salinity')
 ```
 
