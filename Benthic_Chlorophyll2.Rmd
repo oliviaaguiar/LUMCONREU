@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(Biostatistics)
 library(readxl)
+library(lubridate)
 chloro <- read_xlsx('LUMCON Plants _Benthic_Chlorophyll_Master_Olivia_08.03.21.xlsx')
 chloro$Chl_a <- as.numeric(chloro$Chl_a)
 chloro1 <- chloro %>% filter(Site == 'LUM1')
@@ -124,5 +125,19 @@ TukeyHSD(chloroyear3.aov)
 #boxplot comparing sites
 ```{r}
 chloro %>% ggplot() + geom_boxplot(aes(x = Site, y = Chl_a)) + xlab('Site') + ylab('Benthic Chlorophyll')
+```
+
+#graph of benthic chlorophyll during study period
+```{r}
+graph <- chloro %>% group_by(Date) %>%
+  summarise(
+    mean = mean(Chl_a),
+    SE = std.error(Chl_a)
+  )
+
+graph$Date <- my(graph$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+
+graph %>% ggplot(aes(x = Date, y = mean)) + geom_point(aes(x = Date, y = mean)) + geom_errorbar(aes(ymin = mean-SE, ymax = mean+SE)) + theme_bw() + xlab('Date') + ylab('Benthic Chlorophyll')
 ```
 
