@@ -15,6 +15,7 @@ library(Biostatistics)
 library(readxl)
 library(plotrix)
 library(lubridate)
+library(formattable)
 ```
 
 ```{r}
@@ -197,8 +198,20 @@ snailnew %>% ggplot() + geom_col(aes(x = Date, y = propner)) + geom_smooth(aes(x
 
 #graph of % lit and nerites but as points
 ```{r}
-snailnew %>% ggplot(aes(x = Date, y = proplit)) + geom_point(aes(x = Date, y = proplit)) + geom_errorbar(aes(ymin = proplit-proplitSE, ymax = proplit+proplitSE)) + geom_smooth(method = 'lm') + theme_bw() + ylab('Percent') + ggtitle('Percent Littoraria')
+snailnew$proplit <- percent(snailnew$proplit)
 
-snailnew %>% ggplot(aes(x = Date, y = propner)) + geom_point(aes(x = Date, y = propner)) + geom_errorbar(aes(ymin = propner-propnerSE, ymax = propner+propnerSE)) + geom_smooth(method = 'lm') + theme_bw() + ylab('Percent') + ggtitle('Percent N. usnea')
+snailnew %>% ggplot(aes(x = Date, y = proplit)) + geom_point(aes(x = Date, y = proplit)) + geom_errorbar(aes(ymin = proplit-proplitSE, ymax = proplit+proplitSE)) + geom_smooth(method = 'lm') + scale_y_continuous(breaks = c(0.25, 0.50, 0.75, 1.00), labels = c('25%', '50%', '75%', '100%')) + theme_bw() + ylab('Percent') + ggtitle('Percent L. irrorata')
+
+snailnew %>% ggplot(aes(x = Date, y = propner)) + geom_point(aes(x = Date, y = propner)) + geom_errorbar(aes(ymin = propner-propnerSE, ymax = propner+propnerSE)) + geom_smooth(method = 'lm') + scale_y_continuous(breaks = c(0.25, 0.50, 0.75, 1.00), labels = c('25%', '50%', '75%', '100%')) + theme_bw() + ylab('Percent') + ggtitle('Percent N. usnea')
+```
+
+#quick calculations?
+```{r}
+grouped$Mean %>% subset(grouped$Year == '2017') %>% mean()
+#average in 2017 was 115.8519
+
+grouped$Mean %>% subset(grouped$Year == '2021') %>% mean()
+#average in 2021 was 64.59259
+#44% reduction in lit density from 2017 to 2021
 ```
 
