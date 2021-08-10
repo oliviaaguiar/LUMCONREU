@@ -142,12 +142,15 @@ snail3 %>% ggplot() + geom_boxplot(aes(x = season, y = Li_density_m2)) + xlab('S
 
 #monthly plot of entire study period
 ```{r}
-level_order <- c('01/2017', '02/2017', '03/2017', '04/2017', '05/2017', '06/2017', '07/2017', '08/2017', '09/2017', '10/2017', '11/2017', '12/2017','01/2018', '02/2018', '03/2018', '04/2018', '05/2018', '06/2018', '07/2018', '08/2018', '09/2018', '10/2018', '11/2018', '12/2018','01/2019', '02/2019', '03/2019', '04/2019', '05/2019', '06/2019', '07/2019', '08/2019', '09/2019', '10/2019', '11/2019', '12/2019','01/2020', '02/2020', '03/2020', '04/2020', '05/2020', '06/2020', '07/2020', '08/2020', '09/2020', '10/2020', '11/2020', '12/2020','01/2021', '02/2021', '03/2021', '04/2021', '05/2021', '06/2021', '07/2021', '08/2021', '09/2021', '10/2021', '11/2021', '12/2021')
-average1 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 40, vjust = 0.85), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
+average1$Date<-my(average1$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+average2$Date<-my(average2$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+average3$Date<-my(average3$Date,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
 
-average2 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45, vjust = 0.85), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+average1 %>% ggplot(aes(x = Date, y = Mean)) + geom_point(aes(x = Date, y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM1')
 
-average3 %>% ggplot(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_point(aes(x = factor(Date, levels = level_order), y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + theme(text = element_text(size = 9), axis.text.x = element_text(angle = 45, vjust = 0.85), axis.ticks = element_blank()) + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
+average2 %>% ggplot(aes(x = Date, y = Mean)) + geom_point(aes(x = Date, y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM2')
+
+average3 %>% ggplot(aes(x = Date, y = Mean)) + geom_point(aes(x = Date, y = Mean)) + geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) + theme_bw() + xlab('Date') + ylab('Littoraria Density (m2)') + ggtitle('LUM3')
 ```
 
 #making graph of periwinkle density during the whole study period
