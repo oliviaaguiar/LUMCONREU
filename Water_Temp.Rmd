@@ -130,3 +130,16 @@ summary(season.aov)
 TukeyHSD(season.aov)
 ```
 
+#making a plot of minimum water temperatures during the study period
+```{r}
+minimum <- big %>% subset(Year == '2017' | Year == '2018' | Year == '2019' | Year == '2020' | Year == '2021') %>% group_by(`Month/Year`) %>%
+  summarise(
+    min = min(Temp),
+    SE = std.error(Temp)
+  )
+
+minimum$`Month/Year` <-my(minimum$`Month/Year`,quiet=FALSE, tz=NULL, locale=Sys.getlocale("LC_TIME"))
+
+minimum %>% ggplot(aes(x = `Month/Year`, y = min)) + geom_point(aes(x = `Month/Year`, y = min)) + geom_errorbar(aes(ymin = min-SE, ymax = min+SE)) + theme_bw() + xlab('Date') + ylab('Temperature') + ggtitle('Monthly Minimum Temperature')
+```
+
