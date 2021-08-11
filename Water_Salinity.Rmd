@@ -432,3 +432,13 @@ graphsal$`Month/Year` <- my(graphsal$`Month/Year`, quiet = FALSE, tz = NULL, loc
 graphsal %>% ggplot(aes(x = `Month/Year`, y = mean_sal)) + geom_point(aes(x = `Month/Year`, y = mean_sal)) + geom_errorbar(aes(ymin = mean_sal-SE, ymax = mean_sal+SE)) + geom_smooth(method = 'lm') + theme_bw() + xlab('Date') + ylab('Salinity')
 ```
 
+#making bar chart of number of days with FW salinity
+```{r}
+year <- c('2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021')
+number <- c(7, 0, 0, 9, 16, 30, 33, 7, 51, 31, 6)
+
+bar <- data.frame(year, number)
+
+bar %>% ggplot() + geom_col(aes(x = year, y = number)) + theme_bw() + xlab('Year') + ylab('Number of Days Below 2 PSU')
+```
+
